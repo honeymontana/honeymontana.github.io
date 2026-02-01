@@ -1,0 +1,447 @@
+<html lang="ru" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Montanium | Сообщество Honey Montana</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        dark: '#050508',
+                        brand: '#00e87b', // Green
+                        brandRed: '#ff4444',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Global Styles & Noise */
+        body {
+            background-color: #050508;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Noise Texture */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card-hover:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to bottom, #ffffff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Fade In Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+    </style>
+<link id="all-fonts-link-font-outfit" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;display=swap"><style id="all-fonts-style-font-outfit">.font-outfit { font-family: 'Outfit', sans-serif !important; }</style><link id="all-fonts-link-font-jetbrains-mono" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-jetbrains-mono">.font-jetbrains-mono { font-family: 'JetBrains Mono', monospace !important; }</style></head>
+<body class="font-outfit relative overflow-x-hidden selection:bg-brand selection:text-dark">
+
+    <!-- Noise Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Ambient Glow Background -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute top-[-10%] left-[20%] w-96 h-96 bg-brand/10 rounded-full blur-[120px] animate-blob mix-blend-screen"></div>
+        <div class="absolute bottom-[20%] right-[10%] w-80 h-80 bg-blue-500/10 rounded-full blur-[100px] animate-blob animation-delay-2000 mix-blend-screen"></div>
+    </div>
+
+    <!-- Navigation (Logo) -->
+    <nav class="fixed top-0 w-full z-40 px-6 py-6 flex justify-between items-center pointer-events-none">
+        <div class="glass-card pointer-events-auto px-4 py-2 rounded-full">
+            <span class="font-bold tracking-tight text-lg">M</span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative z-10 min-h-screen flex flex-col justify-center items-center px-4 pt-20 pb-10 text-center">
+        <div class="fade-in" style="animation-delay: 0.1s;">
+            <div class="inline-flex items-center gap-2 glass-card rounded-full px-3 py-1.5 mb-8">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-brand"></span>
+                </span>
+                <span class="font-mono text-xs tracking-wide text-gray-300">200+ УЧАСТНИКОВ ВНУТРИ</span>
+            </div>
+        </div>
+
+        <h1 class="fade-in text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-gradient mb-6 leading-[0.9]" style="animation-delay: 0.2s;">
+            Montanium
+        </h1>
+
+        <p class="fade-in text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed font-light" style="animation-delay: 0.3s;">
+            Сообщество про айти, контент и мышление. Стримы каждую неделю, нетворкинг который тянет вверх, +100% к гринд режиму.
+        </p>
+
+        <div class="fade-in flex flex-col items-center gap-4" style="animation-delay: 0.4s;">
+            <a href="#pricing" class="group relative inline-flex items-center justify-center bg-brand text-dark font-semibold px-8 py-4 rounded-xl text-lg hover:shadow-[0_0_30px_-5px_rgba(0,232,123,0.4)] transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                <span class="relative z-10">Вступить</span>
+                <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+            </a>
+            <span class="text-xs text-gray-500 font-mono">Если смотришь мой контент и хочешь больше — тебе сюда</span>
+        </div>
+    </section>
+
+    <!-- Separator -->
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- For Whom Section -->
+    <section class="relative z-10 py-24 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Для кого</span>
+            </div>
+            
+            <div class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden group">
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-brand/5 rounded-full blur-[80px] group-hover:bg-brand/10 transition-colors duration-500"></div>
+                <p class="text-xl md:text-3xl font-normal leading-tight md:leading-snug text-gray-200">
+                    Тебе <span class="text-white font-medium">не интересен стандартный путь</span> — универ, резюме, офис. Ты хочешь разобраться в айти, работать на себя и прокачать майндсет. Здесь ты получишь необходимые знания и окружение<span class="text-white font-medium"></span>.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- What's Inside Section -->
+    <section class="z-10 pt-24 pr-4 pb-24 pl-4 relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded mb-4 inline-block">Что внутри</span>
+                    <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mt-4">База которая окупает подписку в первый день</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <!-- Mindset -->
+                <div class="glass-card glass-card-hover rounded-2xl p-6 md:p-8 flex flex-col h-full">
+                    <div class="text-4xl mb-4">🧠</div>
+                    <h3 class="text-xl font-semibold text-white mb-6">Мышление</h3>
+                    <ul class="space-y-4 text-gray-400 text-sm flex-1">
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:clock-circle-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Тайм-менеджмент</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:bolt-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Продуктивность и дисциплина</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:heart-pulse-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Как не терять мотивацию</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:book-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Обучение в 21 веке</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:notebook-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Работа с блокнотом</span>
+                        </li>
+                         <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:star-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Важные скилы для жизни в 2026</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- IT -->
+                <div class="glass-card glass-card-hover rounded-2xl p-6 md:p-8 flex flex-col h-full">
+                    <div class="text-4xl mb-4">💻</div>
+                    <h3 class="text-xl font-semibold text-white mb-6">Айти</h3>
+                    <ul class="space-y-4 text-gray-400 text-sm flex-1">
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:code-square-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Материалы по программированию</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:rocket-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Ускоряем изучение кода</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:music-note-slider-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Вайбкодинг</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:document-text-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Anytype (замена Notion)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Content -->
+                <div class="glass-card glass-card-hover rounded-2xl p-6 md:p-8 flex flex-col h-full">
+                    <div class="text-4xl mb-4">🎬</div>
+                    <h3 class="text-xl font-semibold text-white mb-6">Контент</h3>
+                    <ul class="space-y-4 text-gray-400 text-sm flex-1">
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:videocamera-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Гайд на контент <span class="text-xs bg-white/10 px-1.5 py-0.5 rounded text-gray-300 ml-1">скоро</span></span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:play-circle-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Что смотреть на ютубе в 2026</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Live Card -->
+            <div class="glass-card glass-card-hover rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8 border-l-4 border-l-brandRed/50">
+                <div class="flex items-center gap-3">
+                    <div class="relative flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brandRed opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-brandRed"></span>
+                    </div>
+                    <span class="font-bold tracking-tight text-white uppercase">Live Каждую неделю</span>
+                </div>
+                <p class="text-gray-400 text-sm md:text-base flex-1">
+                    Новый стрим, живое общение, ответы на вопросы. Записи остаются навсегда.
+                </p>
+                <div class="hidden md:block">
+                    <iconify-icon icon="solar:microphone-3-linear" class="text-white/20" width="48"></iconify-icon>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Separator -->
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Who Am I Section -->
+    <section class="relative z-10 py-24 px-4">
+        <div class="max-w-3xl mx-auto">
+            <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded mb-6 inline-block">Кто я</span>
+            <div class="space-y-6 text-gray-300 text-lg leading-relaxed font-light">
+                <p class="">
+                    Меня зовут Никита, мне 22. Самостоятельно выучил программирование. Прокачался из задрота-ноулайфера в человека с сильным нетворком, хорошим доходом и счастливой жизнью. Сделал всё это не выходя из дома, за компиком.
+                </p>
+                <p>
+                    Снимаю видео с 9 лет. Пережил удаление канала и собрал всё заново с нуля — сейчас 225к подписчиков.
+                </p>
+                <p>
+                    Для меня личная свобода — главная ценность, и всё что я делаю строится вокруг этого. В Montanium я делюсь всем что помогло мне дойти сюда.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="relative z-10 py-24 px-4 bg-white/[0.01]">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-12 text-center">
+                 <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded inline-block">Отзывы</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Review 1 -->
+                <div class="glass-card p-8 rounded-2xl">
+                    <div class="flex gap-1 mb-4 text-brand">
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed">
+                        «Это самое лучшее вложение которое я совершал в своей жизни. Мало того что на канале много гайдов так еще комьюнити прекрасное»
+                    </p>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="glass-card p-8 rounded-2xl">
+                    <div class="flex gap-1 mb-4 text-brand">
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed">
+                        «Хочу сказать большое спасибо за то что постарался и сделал такое комьюнити, куча контента, и то что ты в нем активно участвуешь тоже очень ценно»
+                    </p>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="glass-card p-8 rounded-2xl">
+                     <div class="flex gap-1 mb-4 text-brand">
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed">
+                        «Довольно сложно найти такой же качественный контент как у тебя. Тема с созвонами и дискорд ивентами топовая»
+                    </p>
+                </div>
+
+                <!-- Review 4 -->
+                <div class="glass-card p-8 rounded-2xl">
+                     <div class="flex gap-1 mb-4 text-brand">
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                        <iconify-icon icon="solar:star-bold" width="16"></iconify-icon>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed">
+                        «С блокнотом и продуктивностью ахуенные видео. Я стал больше фокусироваться на задачах»
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="relative z-10 py-24 px-4">
+        <div class="absolute inset-0 bg-gradient-to-t from-brand/5 to-transparent pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto relative">
+            <div class="text-center mb-12">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded inline-block mb-6">Цена</span>
+                <p class="text-xl md:text-2xl font-serif italic text-gray-400 max-w-lg mx-auto leading-relaxed">
+                    «Только этот гайд как будто окупает всю приватку»
+                </p>
+                <p class="text-sm text-gray-500 mt-2">— а это один материал из десятков.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                <!-- Monthly -->
+                <div class="glass-card rounded-3xl p-8 flex flex-col relative overflow-hidden">
+                    <div class="mb-4">
+                        <h3 class="text-lg font-medium text-white">Месяц</h3>
+                    </div>
+                    <div class="mb-8 flex items-baseline gap-1">
+                        <span class="text-4xl md:text-5xl font-bold tracking-tight text-white">9€</span>
+                        <span class="text-gray-500 text-lg">/мес</span>
+                    </div>
+                    <ul class="space-y-3 mb-8 flex-1">
+                        <li class="flex items-center gap-3 text-sm text-gray-400">
+                             <iconify-icon icon="solar:check-circle-linear" class="text-white"></iconify-icon>
+                            <span>Доступ ко всем материалам</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-400">
+                             <iconify-icon icon="solar:check-circle-linear" class="text-white"></iconify-icon>
+                            <span>Участие в стримах</span>
+                        </li>
+                        
+                    </ul>
+                    <a href="https://t.me/tribute/app?startapp=sjem" class="block text-center w-full bg-white/5 hover:bg-white/10 text-white font-medium py-3 rounded-xl border border-white/10 transition-all duration-300">
+                        Вступить
+                    </a>
+                    <div class="mt-4 text-center">
+                         <span class="text-xs text-gray-500 font-mono">~900₽</span>
+                    </div>
+                </div>
+
+                <!-- Yearly -->
+                <div class="glass-card rounded-3xl p-8 flex flex-col relative overflow-hidden border-brand/30 shadow-[0_0_40px_-15px_rgba(0,232,123,0.15)]">
+                    <div class="absolute top-0 right-0">
+                        <div class="bg-brand text-dark font-mono text-xs font-bold px-3 py-1 rounded-bl-xl">ВЫГОДНО</div>
+                    </div>
+                    <div class="mb-4">
+                        <h3 class="text-lg font-medium text-white">Год</h3>
+                    </div>
+                    <div class="mb-2 flex items-baseline gap-1">
+                        <span class="text-4xl md:text-5xl font-bold tracking-tight text-white">79€</span>
+                        <span class="text-gray-500 text-lg">/год</span>
+                    </div>
+                    <p class="text-brand text-sm mb-6 font-mono">6.5€ в месяц • экономия 29€</p>
+                    
+                    <ul class="space-y-3 mb-8 flex-1">
+                        <li class="flex items-center gap-3 text-sm text-gray-400">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand"></iconify-icon>
+                            <span class="text-gray-200">Все преимущества подписки</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-400">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand"></iconify-icon>
+                            <span class="text-gray-200">Фиксация цены на год</span>
+                        </li>
+                    </ul>
+                    <a href="https://t.me/tribute/app?startapp=sMU3" class="block text-center w-full bg-brand text-dark font-semibold py-3 rounded-xl hover:shadow-[0_0_20px_rgba(0,232,123,0.4)] hover:-translate-y-0.5 transition-all duration-300">
+                        Вступить
+                    </a>
+                    <div class="mt-4 text-center">
+                         <span class="text-xs text-gray-500 font-mono">~7 900₽</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <p class="text-xs text-gray-600">Отменить подписку можно в любой момент.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- че исходники читаем, да? о_О -->
+    <section class="relative z-10 py-24 px-4 text-center">
+        <h2 class="text-4xl md:text-6xl font-bold tracking-tighter text-white mb-6">Готов начать?</h2>
+        <p class="text-gray-400 text-lg mb-10 max-w-xl mx-auto font-light">
+            Тебя ждут стримы, база знаний и единомышленники.
+        </p>
+        <a href="#pricing" class="inline-flex items-center justify-center bg-brand text-dark font-semibold px-10 py-4 rounded-xl text-lg hover:shadow-[0_0_30px_-5px_rgba(0,232,123,0.4)] transition-all duration-300 hover:-translate-y-1">
+            Вступить в Montanium
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 py-8 text-center border-t border-white/5">
+        <p class="text-gray-600 text-xs font-mono">© 2026 MONTANIUM. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+
+</body></html>
