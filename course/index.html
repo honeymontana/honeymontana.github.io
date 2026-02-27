@@ -1,0 +1,771 @@
+<html lang="ru" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullstack JS+AI до первой работы</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        dark: '#050508',
+                        brand: '#00e87b', // Green
+                        brandRed: '#ff4444',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Global Styles & Noise */
+        body {
+            background-color: #050508;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Noise Texture */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card-hover:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to bottom, #ffffff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Fade In Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* GetCourse Form Styling */
+        #ao-form-container iframe {
+            border: none !important;
+            width: 100% !important;
+            min-height: 500px !important;
+        }
+
+        /* Style GetCourse form elements to match design */
+        #l-mxRjHXc0m8PBeMVWn-Hw {
+            background: transparent !important;
+        }
+
+        /* Override GetCourse quiz styles */
+        ._quiz_style_1w619_1 {
+            --quiz-title-fs: 14px !important;
+            --quiz-title-color: #d4d4d8 !important;
+            --quiz-text-fs: 15px !important;
+            --quiz-text-color: #ffffff !important;
+            --quiz-border-width: 1px !important;
+            --quiz-border-color: rgba(255, 255, 255, 0.1) !important;
+            --quiz-border-radius: 12px !important;
+            --quiz-bg-color: rgba(255, 255, 255, 0.05) !important;
+            --quiz-bg-image: none !important;
+            --quiz-nav-btn-bg-color: #00e87b !important;
+            --quiz-nav-btn-color: #050508 !important;
+            --quiz-nav-btn-border-color: #00e87b !important;
+            --quiz-nav-btn-border-thickness: 0px !important;
+            --quiz-nav-btn-border-radius: 12px !important;
+            --quiz-nav-btn-font-size: 18px !important;
+        }
+
+        /* Form background */
+        .quiz-style-bg {
+            background: transparent !important;
+        }
+
+        /* Form container padding */
+        ._quiz_style_1w619_1 .relative.p-20 {
+            padding: 0 !important;
+        }
+
+        /* Quiz item spacing */
+        .quiz-item {
+            margin-bottom: 20px !important;
+        }
+
+        /* Labels styling */
+        .quiz-style-title {
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            color: #d4d4d8 !important;
+            margin-bottom: 8px !important;
+            font-family: 'Outfit', sans-serif !important;
+        }
+
+        .quiz-ant-form-item-label {
+            padding-bottom: 8px !important;
+        }
+
+        /* Input fields */
+        .quiz-style-field,
+        .quiz-ant-input,
+        .phone_input input {
+            width: 100% !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 12px !important;
+            padding: 12px 16px !important;
+            color: #ffffff !important;
+            font-size: 15px !important;
+            font-weight: 300 !important;
+            font-family: 'Outfit', sans-serif !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .quiz-style-field::placeholder,
+        .quiz-ant-input::placeholder,
+        .phone_input input::placeholder {
+            color: #52525b !important;
+        }
+
+        .quiz-style-field:focus,
+        .quiz-ant-input:focus,
+        .phone_input input:focus {
+            outline: none !important;
+            border-color: #00e87b !important;
+            box-shadow: 0 0 0 1px #00e87b !important;
+        }
+
+        /* Phone input specific */
+        .phone_input {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 12px !important;
+            overflow: hidden !important;
+        }
+
+        .phone_input .flag-dropdown {
+            background: transparent !important;
+            border: none !important;
+        }
+
+        .phone_input .selected-flag {
+            background: transparent !important;
+        }
+
+        .phone_input .special-label {
+            display: none !important;
+        }
+
+        /* Submit button */
+        .quiz-style-nav-button,
+        .quiz-ant-btn {
+            width: 100% !important;
+            background: #00e87b !important;
+            color: #050508 !important;
+            font-weight: 600 !important;
+            padding: 16px 32px !important;
+            height: auto !important;
+            border-radius: 12px !important;
+            font-size: 18px !important;
+            border: none !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            font-family: 'Outfit', sans-serif !important;
+        }
+
+        .quiz-style-nav-button:hover,
+        .quiz-ant-btn:hover {
+            box-shadow: 0 0 20px rgba(0, 232, 123, 0.4) !important;
+            transform: translateY(-2px) !important;
+            background: #00e87b !important;
+        }
+
+        /* Button container */
+        ._quiz_style_1w619_1 .p-15 {
+            padding: 16px 0 0 0 !important;
+        }
+
+        /* Remove form item margins */
+        .quiz-ant-form-item {
+            margin-bottom: 20px !important;
+        }
+
+        .quiz-ant-form-item:last-child {
+            margin-bottom: 0 !important;
+        }
+    </style>
+
+    <script>
+        // Apply styles to iframe content using MutationObserver and brute-force approach
+        function applyStylesToIframe() {
+            const iframe = document.querySelector('#l-mxRjHXc0m8PBeMVWn-Hw');
+
+            if (!iframe) {
+                console.log('Iframe not found, retrying...');
+                setTimeout(applyStylesToIframe, 300);
+                return;
+            }
+
+            // Try multiple methods to inject styles
+            let injected = false;
+
+            // Method 1: Try direct access (works if same-origin or permissive CORS)
+            try {
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+                if (iframeDoc && iframeDoc.body) {
+                    if (!iframeDoc.getElementById('custom-form-styles')) {
+                        const style = iframeDoc.createElement('style');
+                        style.id = 'custom-form-styles';
+                        style.textContent = getCustomStyles();
+                        iframeDoc.head.appendChild(style);
+                        console.log('✅ Styles injected successfully!');
+                        injected = true;
+                    }
+                }
+            } catch(e) {
+                console.log('❌ Direct access blocked by CORS:', e.message);
+            }
+
+            // Method 2: Use postMessage to communicate with iframe
+            if (!injected) {
+                try {
+                    iframe.contentWindow.postMessage({
+                        type: 'INJECT_STYLES',
+                        styles: getCustomStyles()
+                    }, '*');
+                    console.log('📤 Sent styles via postMessage');
+                } catch(e) {
+                    console.log('postMessage failed:', e.message);
+                }
+            }
+
+            // Method 3: Keep retrying on iframe load events
+            iframe.addEventListener('load', function() {
+                console.log('Iframe loaded, attempting injection...');
+                setTimeout(applyStylesToIframe, 500);
+            });
+        }
+
+        function getCustomStyles() {
+            return `
+                /* Import Outfit font */
+                @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+                /* Override GetCourse quiz styles */
+                ._quiz_style_1w619_1 {
+                    --quiz-title-fs: 14px !important;
+                    --quiz-title-color: #d4d4d8 !important;
+                    --quiz-text-fs: 15px !important;
+                    --quiz-text-color: #ffffff !important;
+                    --quiz-border-width: 1px !important;
+                    --quiz-border-color: rgba(255, 255, 255, 0.1) !important;
+                    --quiz-border-radius: 12px !important;
+                    --quiz-bg-color: rgba(255, 255, 255, 0.05) !important;
+                    --quiz-bg-image: none !important;
+                    --quiz-nav-btn-bg-color: #00e87b !important;
+                    --quiz-nav-btn-color: #050508 !important;
+                    --quiz-nav-btn-border-color: #00e87b !important;
+                    --quiz-nav-btn-border-thickness: 0px !important;
+                    --quiz-nav-btn-border-radius: 12px !important;
+                    --quiz-nav-btn-font-size: 18px !important;
+                }
+
+                /* Form background */
+                body {
+                    background: transparent !important;
+                    font-family: 'Outfit', sans-serif !important;
+                }
+
+                .quiz-style-bg {
+                    background: transparent !important;
+                }
+
+                /* Form container padding */
+                ._quiz_style_1w619_1 .relative.p-20 {
+                    padding: 0 !important;
+                }
+
+                /* Quiz item spacing */
+                .quiz-item {
+                    margin-bottom: 20px !important;
+                }
+
+                /* Labels styling */
+                .quiz-style-title {
+                    font-size: 14px !important;
+                    font-weight: 500 !important;
+                    color: #d4d4d8 !important;
+                    margin-bottom: 8px !important;
+                    font-family: 'Outfit', sans-serif !important;
+                }
+
+                .quiz-ant-form-item-label {
+                    padding-bottom: 8px !important;
+                }
+
+                /* Input fields */
+                .quiz-style-field,
+                .quiz-ant-input,
+                .phone_input input {
+                    width: 100% !important;
+                    background: rgba(255, 255, 255, 0.05) !important;
+                    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                    border-radius: 12px !important;
+                    padding: 12px 16px !important;
+                    color: #ffffff !important;
+                    font-size: 15px !important;
+                    font-weight: 300 !important;
+                    font-family: 'Outfit', sans-serif !important;
+                    transition: all 0.3s ease !important;
+                }
+
+                .quiz-style-field::placeholder,
+                .quiz-ant-input::placeholder,
+                .phone_input input::placeholder {
+                    color: #52525b !important;
+                }
+
+                .quiz-style-field:focus,
+                .quiz-ant-input:focus,
+                .phone_input input:focus {
+                    outline: none !important;
+                    border-color: #00e87b !important;
+                    box-shadow: 0 0 0 1px #00e87b !important;
+                }
+
+                /* Phone input specific */
+                .phone_input {
+                    background: rgba(255, 255, 255, 0.05) !important;
+                    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                    border-radius: 12px !important;
+                    overflow: hidden !important;
+                }
+
+                .phone_input .flag-dropdown {
+                    background: transparent !important;
+                    border: none !important;
+                }
+
+                .phone_input .selected-flag {
+                    background: transparent !important;
+                }
+
+                .phone_input .special-label {
+                    display: none !important;
+                }
+
+                /* Submit button */
+                .quiz-style-nav-button,
+                .quiz-ant-btn {
+                    width: 100% !important;
+                    background: #00e87b !important;
+                    color: #050508 !important;
+                    font-weight: 600 !important;
+                    padding: 16px 32px !important;
+                    height: auto !important;
+                    border-radius: 12px !important;
+                    font-size: 18px !important;
+                    border: none !important;
+                    cursor: pointer !important;
+                    transition: all 0.3s ease !important;
+                    font-family: 'Outfit', sans-serif !important;
+                }
+
+                .quiz-style-nav-button:hover,
+                .quiz-ant-btn:hover {
+                    box-shadow: 0 0 20px rgba(0, 232, 123, 0.4) !important;
+                    transform: translateY(-2px) !important;
+                    background: #00e87b !important;
+                }
+
+                /* Button container */
+                ._quiz_style_1w619_1 .p-15 {
+                    padding: 16px 0 0 0 !important;
+                }
+
+                /* Remove form item margins */
+                .quiz-ant-form-item {
+                    margin-bottom: 20px !important;
+                }
+
+                .quiz-ant-form-item:last-child {
+                    margin-bottom: 0 !important;
+                }
+            `;
+        }
+
+        // Listen for messages from iframe (if it wants to cooperate)
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'REQUEST_STYLES') {
+                event.source.postMessage({
+                    type: 'INJECT_STYLES',
+                    styles: getCustomStyles()
+                }, '*');
+            }
+        });
+
+        // Start attempting injection
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', applyStylesToIframe);
+        } else {
+            applyStylesToIframe();
+        }
+
+        // Also try on window load
+        window.addEventListener('load', function() {
+            setTimeout(applyStylesToIframe, 1000);
+            setTimeout(applyStylesToIframe, 2000);
+            setTimeout(applyStylesToIframe, 3000);
+        });
+
+        // Watch for iframe being added dynamically
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.id === 'l-mxRjHXc0m8PBeMVWn-Hw') {
+                        console.log('Iframe detected by MutationObserver');
+                        setTimeout(applyStylesToIframe, 500);
+                    }
+                });
+            });
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    </script>
+
+<link id="all-fonts-link-font-outfit" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;display=swap"><style id="all-fonts-style-font-outfit">.font-outfit { font-family: 'Outfit', sans-serif !important; }</style><link id="all-fonts-link-font-jetbrains-mono" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-jetbrains-mono">.font-jetbrains-mono { font-family: 'JetBrains Mono', monospace !important; }</style></head>
+<body class="font-outfit relative overflow-x-hidden selection:bg-brand selection:text-dark">
+
+    <!-- Noise Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Ambient Glow Background -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute top-[-10%] left-[20%] w-96 h-96 bg-brand/10 rounded-full blur-[120px] animate-blob mix-blend-screen"></div>
+        <div class="absolute bottom-[20%] right-[10%] w-80 h-80 bg-blue-500/10 rounded-full blur-[100px] animate-blob animation-delay-2000 mix-blend-screen"></div>
+    </div>
+
+    <!-- Navigation (Logo) -->
+    <nav class="fixed top-0 w-full z-40 px-6 py-6 flex justify-between items-center pointer-events-none">
+        <div class="glass-card pointer-events-auto px-4 py-2 rounded-full flex items-center gap-2">
+            <iconify-icon icon="solar:code-square-linear" class="text-brand" width="20"></iconify-icon>
+            <span class="font-bold tracking-tight text-lg">JS+AI</span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative z-10 min-h-screen flex flex-col justify-center items-center px-4 pt-20 pb-10 text-center">
+        <div class="fade-in" style="animation-delay: 0.1s;">
+            <div class="inline-flex items-center gap-2 glass-card rounded-full px-3 py-1.5 mb-8">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-brand"></span>
+                </span>
+                <span class="font-mono text-xs tracking-wide text-gray-300">ТВОЙ ПОСЛЕДНИЙ КУРС ПО ПРОГРАММИРОВАНИЮ</span>
+            </div>
+        </div>
+
+        <h1 class="fade-in text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-gradient mb-6 leading-[1.1] max-w-5xl" style="animation-delay: 0.2s;">
+            Fullstack JS+AI <br> <span class="text-3xl md:text-5xl lg:text-6xl text-white/50">до первой работы</span>
+        </h1>
+
+        <p class="fade-in text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed font-light" style="animation-delay: 0.3s;">
+            Для тех, кто устал «учиться программированию» и хочет наконец-то зарабатывать на коде. Берём тебя из любой точки и за 6 месяцев доводим до уровня мидла на Fullstack JS. Выходишь на работу разработчиком с зарплатой <span class="text-white font-medium">300к+</span>, без вечного «я всё ещё учусь».
+        </p>
+
+        <div class="fade-in flex flex-col items-center gap-4" style="animation-delay: 0.4s;">
+            <a href="#form-section" class="group relative inline-flex items-center justify-center bg-brand text-dark font-semibold px-8 py-4 rounded-xl text-lg hover:shadow-[0_0_30px_-5px_rgba(0,232,123,0.4)] transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                <span class="relative z-10">Заполнить анкету</span>
+                <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+            </a>
+            <span class="text-xs text-gray-500 font-mono">Анкета предзаписи + бонусный мини-курс внутри</span>
+        </div>
+    </section>
+
+    <!-- Separator -->
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Pains Section -->
+    <section class="relative z-10 py-24 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-12 text-center md:text-left">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded inline-block mb-4">Проблемы</span>
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white">Кому нужно на курс?</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                <div class="glass-card rounded-2xl p-6 md:p-8 flex items-start gap-4">
+                    <iconify-icon icon="solar:video-frame-linear" class="text-gray-500 shrink-0 mt-1" width="24"></iconify-icon>
+                    <div>
+                        <h3 class="text-lg font-medium text-white mb-2">Застрял на YouTube-уроках</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Давно думаешь про IT, но дальше роликов на YouTube дело не идёт. Смотришь истории «перешёл в разработку», но сам не понимаешь, с чего начать.</p>
+                    </div>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-6 md:p-8 flex items-start gap-4">
+                    <iconify-icon icon="solar:route-linear" class="text-gray-500 shrink-0 mt-1" width="24"></iconify-icon>
+                    <div>
+                        <h3 class="text-lg font-medium text-white mb-2">Не видишь понятного маршрута</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Хочешь уйти из текущей профессии в IT. Страшно просто «уволиться и пойти в разработчики» — непонятно, как дойти до первой зарплаты.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 md:p-8 flex items-start gap-4">
+                    <iconify-icon icon="solar:danger-triangle-linear" class="text-gray-500 shrink-0 mt-1" width="24"></iconify-icon>
+                    <div>
+                        <h3 class="text-lg font-medium text-white mb-2">Пугает хаос технологий</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Фронтенд, бэкенд, Python, тестировщик — глаза разбегаются. Хочется, чтобы кто-то просто показал: «вот сюда идём, вот по таким шагам».</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 md:p-8 flex items-start gap-4">
+                    <iconify-icon icon="solar:buildings-linear" class="text-gray-500 shrink-0 mt-1" width="24"></iconify-icon>
+                    <div>
+                        <h3 class="text-lg font-medium text-white mb-2">Ненавидишь текущую работу</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Понимаешь, что в ней нет будущего. Офис, рутина, потолок по зарплате — хочется удалёнки и нормального дохода в IT.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 md:p-8 flex items-start gap-4">
+                    <iconify-icon icon="solar:document-text-linear" class="text-gray-500 shrink-0 mt-1" width="24"></iconify-icon>
+                    <div>
+                        <h3 class="text-lg font-medium text-white mb-2">Кажется, что не дотягиваешь</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Смотришь вакансии — в требованиях TypeScript, Node, базы данных, Docker, тесты... А у тебя только кусочки знаний.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 md:p-8 flex items-start gap-4">
+                    <iconify-icon icon="solar:cpu-linear" class="text-gray-500 shrink-0 mt-1" width="24"></iconify-icon>
+                    <div>
+                        <h3 class="text-lg font-medium text-white mb-2">Слепо копируешь код из ИИ</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Используешь ИИ для генерации кода, но сам не понимаешь, что он выдает. Страшно опираться на решения, в которых не разбираешься.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 md:p-8 flex items-start gap-4">
+                    <iconify-icon icon="solar:wallet-money-linear" class="text-gray-500 shrink-0 mt-1" width="24"></iconify-icon>
+                    <div>
+                        <h3 class="text-lg font-medium text-white mb-2">Хочешь выйти на 300к+</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Мечтаешь о доходе разработчика, но понимаешь, что без системной программы и продакшн-практики это останется «когда-нибудь».</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 md:p-8 flex items-start gap-4">
+                    <iconify-icon icon="solar:clock-circle-linear" class="text-gray-500 shrink-0 mt-1" width="24"></iconify-icon>
+                    <div>
+                        <h3 class="text-lg font-medium text-white mb-2">Боишься, что время уходит</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Есть ощущение, что если сейчас не собрать знания в систему, можно окончательно застрять в старой жизни и вечном процессе обучения.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dreams Section -->
+    <section class="z-10 pt-12 pr-4 pb-24 pl-4 relative bg-white/[0.01]">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-12 text-center md:text-left">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded mb-4 inline-block">Решения</span>
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mt-4">И давно мечтаешь:</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Items -->
+                <div class="glass-card glass-card-hover rounded-2xl p-6 flex flex-col gap-3">
+                    <iconify-icon icon="solar:check-circle-linear" class="text-brand text-2xl"></iconify-icon>
+                    <h3 class="text-base font-medium text-white leading-tight">Сбежать из ненавистной работы</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">В нормальную профессию, чтобы заниматься тем, что развивает и приносит деньги, а не выжимает силы.</p>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6 flex flex-col gap-3">
+                    <iconify-icon icon="solar:check-circle-linear" class="text-brand text-2xl"></iconify-icon>
+                    <h3 class="text-base font-medium text-white leading-tight">Получить понятный путь</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Не учить всё подряд, а иметь дорожку: что делать по месяцам, чему учиться, когда идти на собеседования.</p>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6 flex flex-col gap-3">
+                    <iconify-icon icon="solar:check-circle-linear" class="text-brand text-2xl"></iconify-icon>
+                    <h3 class="text-base font-medium text-white leading-tight">Начать зарабатывать головой</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Чтобы твой доход зависел от навыка, а не от количества смен или выполнения чужих планов.</p>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6 flex flex-col gap-3">
+                    <iconify-icon icon="solar:check-circle-linear" class="text-brand text-2xl"></iconify-icon>
+                    <h3 class="text-base font-medium text-white leading-tight">Работать удалённо</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Иметь возможность жить там, где хочется, просто открыв ноутбук из любой точки мира.</p>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6 flex flex-col gap-3">
+                    <iconify-icon icon="solar:check-circle-linear" class="text-brand text-2xl"></iconify-icon>
+                    <h3 class="text-base font-medium text-white leading-tight">Не бояться «программирования»</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Понять, что код — это не магия для гениев, а понятный набор шагов, который можно освоить с нуля.</p>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6 flex flex-col gap-3">
+                    <iconify-icon icon="solar:check-circle-linear" class="text-brand text-2xl"></iconify-icon>
+                    <h3 class="text-base font-medium text-white leading-tight">Сделать реальный проект</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Не просто учебная задачка, а платная задача или реальный заказ, чтобы почувствовать: «я могу».</p>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6 flex flex-col gap-3">
+                    <iconify-icon icon="solar:check-circle-linear" class="text-brand text-2xl"></iconify-icon>
+                    <h3 class="text-base font-medium text-white leading-tight">Совместить обучение с жизнью</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Учиться по понятному графику, без необходимости бросать текущую работу прямо сейчас.</p>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6 flex flex-col gap-3">
+                    <iconify-icon icon="solar:check-circle-linear" class="text-brand text-2xl"></iconify-icon>
+                    <h3 class="text-base font-medium text-white leading-tight">Спокойствие на собеседованиях</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">Разговаривать без синдрома самозванца, понимать архитектуру и уметь защитить свои решения.</p>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6 flex flex-col gap-3 border-brand/30 relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-brand/10 rounded-full blur-[40px]"></div>
+                    <iconify-icon icon="solar:magic-stick-3-linear" class="text-brand text-2xl relative z-10"></iconify-icon>
+                    <h3 class="text-base font-medium text-white leading-tight relative z-10">AI как senior-наставник</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed relative z-10">Чтобы Cursor, Copilot и Claude помогали думать и ускоряли работу, а не плодили неуправляемый код.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Separator -->
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Who Am I Section -->
+    <section class="relative z-10 py-24 px-4">
+        <div class="max-w-3xl mx-auto text-center md:text-left">
+            <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded mb-6 inline-block">Автор курса</span>
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-8">Кто я</h2>
+            <div class="space-y-6 text-gray-300 text-lg leading-relaxed font-light glass-card p-8 rounded-3xl">
+                <p>
+                    - Автор одного из самых крупных айти каналов на ютубе (230k+)
+                </p>
+                <p>
+                    - Обучил более 100 учеников
+                </p>
+                <p>
+                    - Разработал собственную методику обучения
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form / Bonus Section -->
+    <section id="form-section" class="relative z-10 py-24 px-4 bg-white/[0.02]">
+        <div class="absolute inset-0 bg-gradient-to-t from-brand/5 to-transparent pointer-events-none"></div>
+        <div class="max-w-6xl mx-auto relative">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- Bonus Content -->
+                <div class="flex flex-col">
+                    <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded mb-6 inline-block w-max">Подарок</span>
+                    <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">Бонус за заполнение анкеты</h2>
+                    <p class="text-xl text-gray-300 mb-8 leading-relaxed font-light">
+                        Я не оставлю тебя без бонуса. Все, кто заполнят анкету, получат доступ к мини-курсу: <span class="text-white font-medium">«Переезд в IT без иллюзий: 5 шагов до первой работы Fullstack JS+AI»</span>
+                    </p>
+                    
+                    <div class="glass-card rounded-2xl p-6 md:p-8 mb-8">
+                        <h3 class="text-sm font-mono text-gray-400 uppercase tracking-widest mb-6">Внутри разберем:</h3>
+                        <ul class="space-y-4 text-sm text-gray-300">
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="solar:alt-arrow-right-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                                <span>Как происходит переход в IT и что для этого нужно — без мифов</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="solar:alt-arrow-right-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                                <span>Почему ты всё время учишься, но до разработки так и не дошёл</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="solar:alt-arrow-right-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                                <span>С нуля до первой работы Fullstack JS+AI: пошаговый план</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="solar:alt-arrow-right-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                                <span>Fullstack JS+AI: как один стек собирает все в систему с доходом 300к+</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="solar:alt-arrow-right-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                                <span>Какие есть варианты трудоустройства и заработка</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <p class="text-sm text-gray-500 font-mono">
+                        Записывайся в анкету предзаписи, чтобы первым узнать про старт потока, получить лучшие цены, посмотреть мини-курс и сохранить за собой лучшие бонусы.
+                    </p>
+                </div>
+
+                <!-- Form Panel -->
+                <div class="glass-card rounded-3xl p-8 shadow-[0_0_40px_-15px_rgba(0,232,123,0.1)] relative border-brand/20">
+                    <div class="absolute top-0 right-0">
+                        <div class="bg-brand text-dark font-mono text-xs font-bold px-4 py-1.5 rounded-bl-xl rounded-tr-3xl uppercase">Анкета</div>
+                    </div>
+
+                    <h3 class="text-2xl font-bold text-white mb-2 mt-2">Заполни данные</h3>
+                    <p class="text-gray-400 text-sm mb-8">И получи моментальный доступ к бонусному мини-курсу.</p>
+
+                    <!-- GetCourse Form Widget -->
+                    <div id="ao-form-container" class="w-full">
+                        <script ao-number="117859" ao-widget-id="l-mxRjHXc0m8PBeMVWn-Hw" ao-domain="course.honeymontana.com" src="https://idx.xl.ru/site/widget/widget.min.js"></script>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 py-8 text-center border-t border-white/5 mt-12">
+        <p class="text-gray-600 text-xs font-mono">© 2026 FULLSTACK JS+AI. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+</body></html>
+
