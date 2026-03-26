@@ -793,8 +793,83 @@
 
                     <!-- GetCourse Form Widget -->
                     <div id="ao-form-container" class="w-full">
-                        <script ao-number="117859" ao-widget-id="l-mxRjHXc0m8PBeMVWn-Hw" ao-domain="course.honeymontana.com" src="https://idx.xl.ru/site/widget/widget.min.js"></script>
+                        <!-- Loader -->
+                        <div id="form-loader" class="glass-card rounded-2xl p-8 text-center">
+                            <div class="inline-block relative w-12 h-12 mb-4">
+                                <div class="absolute border-4 border-brand/20 rounded-full w-12 h-12"></div>
+                                <div class="absolute border-4 border-brand border-t-transparent rounded-full w-12 h-12 animate-spin"></div>
+                            </div>
+                            <p class="text-gray-400 text-sm">Загрузка анкеты...</p>
+                        </div>
+
+                        <!-- VPN Message -->
+                        <div id="vpn-message" style="display: none;" class="glass-card rounded-2xl p-6 text-center">
+                            <iconify-icon icon="solar:shield-warning-linear" class="text-brand mx-auto mb-4" width="48"></iconify-icon>
+                            <p class="text-white text-lg font-medium mb-2">Для заполнения анкеты включите VPN и обновите страницу</p>
+                            <p class="text-gray-400 text-sm">Из-за особенностей сервиса анкеты, необходимо использовать VPN для доступа</p>
+                        </div>
+
+                        <!-- Form Widget -->
+                        <div id="form-widget-wrapper" style="display: none;">
+                            <script id="getcourse-widget-script" ao-number="117859" ao-widget-id="l-mxRjHXc0m8PBeMVWn-Hw" ao-domain="course.honeymontana.com" src="https://idx.xl.ru/site/widget/widget.min.js"></script>
+                        </div>
                     </div>
+
+                    <script>
+                        // Проверка загрузки iframe с анкетой
+                        (function checkFormLoaded() {
+                            let formLoaded = false;
+                            let scriptErrorDetected = false;
+
+                            // Показываем форму сразу (скрипт загрузится внутри)
+                            document.getElementById('form-widget-wrapper').style.display = 'block';
+
+                            // Слушаем ошибку загрузки скрипта
+                            const widgetScript = document.getElementById('getcourse-widget-script');
+                            if (widgetScript) {
+                                widgetScript.onerror = function() {
+                                    scriptErrorDetected = true;
+                                    showVpnMessage();
+                                };
+                            }
+
+                            // Быстрая проверка каждые 100ms
+                            let checkAttempts = 0;
+                            const maxAttempts = 50; // 5 секунд проверки (50 * 100ms)
+
+                            const checkInterval = setInterval(function() {
+                                checkAttempts++;
+
+                                // Ищем iframe с анкетой
+                                const iframe = document.querySelector('#l-mxRjHXc0m8PBeMVWn-Hw');
+
+                                if (iframe && !formLoaded) {
+                                    // Iframe найден - форма загрузилась
+                                    formLoaded = true;
+                                    clearInterval(checkInterval);
+                                    hideLoader();
+                                    console.log('✅ Form loaded successfully');
+                                } else if (checkAttempts >= maxAttempts && !formLoaded && !scriptErrorDetected) {
+                                    // Iframe не загрузился за 5 секунд
+                                    clearInterval(checkInterval);
+                                    showVpnMessage();
+                                }
+                            }, 100);
+
+                            function hideLoader() {
+                                document.getElementById('form-loader').style.display = 'none';
+                            }
+
+                            function showVpnMessage() {
+                                if (!formLoaded) {
+                                    document.getElementById('form-loader').style.display = 'none';
+                                    document.getElementById('vpn-message').style.display = 'block';
+                                    document.getElementById('form-widget-wrapper').style.display = 'none';
+                                    console.log('⚠️ Form failed to load, VPN message shown');
+                                }
+                            }
+                        })();
+                    </script>
                 </div>
 
             </div>
