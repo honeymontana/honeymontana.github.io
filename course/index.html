@@ -809,6 +809,17 @@
                             <p class="text-gray-400 text-sm">Из-за особенностей сервиса анкеты, необходимо использовать VPN для доступа</p>
                         </div>
 
+                        <!-- Error Message -->
+                        <div id="error-message" style="display: none;" class="glass-card rounded-2xl p-6 text-center border-brandRed/30">
+                            <iconify-icon icon="solar:danger-circle-linear" class="text-brandRed mx-auto mb-4" width="48"></iconify-icon>
+                            <p class="text-white text-lg font-medium mb-2">Возникли технические неполадки</p>
+                            <p class="text-gray-400 text-sm mb-4">К сожалению, сервис анкет временно недоступен. Попробуйте позже или свяжитесь с нами напрямую.</p>
+                            <button onclick="location.reload()" class="inline-flex items-center gap-2 px-4 py-2 bg-brand/10 hover:bg-brand/20 text-brand rounded-lg text-sm transition-colors duration-300">
+                                <iconify-icon icon="solar:refresh-linear" width="16"></iconify-icon>
+                                Обновить страницу
+                            </button>
+                        </div>
+
                         <!-- Form Widget -->
                         <div id="form-widget-wrapper" style="display: none;">
                             <script id="getcourse-widget-script" ao-number="117859" ao-widget-id="l-mxRjHXc0m8PBeMVWn-Hw" ao-domain="course.honeymontana.com" src="https://idx.xl.ru/site/widget/widget.min.js"></script>
@@ -816,10 +827,11 @@
                     </div>
 
                     <script>
-                        // Проверка загрузки iframe с анкетой
+                        // Проверка загрузки iframe с анкетой и отслеживание ошибок
                         (function checkFormLoaded() {
                             let formLoaded = false;
                             let scriptErrorDetected = false;
+                            let serverErrorDetected = false;
 
                             // Показываем форму сразу (скрипт загрузится внутри)
                             document.getElementById('form-widget-wrapper').style.display = 'block';
@@ -833,6 +845,50 @@
                                 };
                             }
 
+                            // Перехватываем ошибки в консоли от GetCourse
+                            const originalError = console.error;
+                            console.error = function(...args) {
+                                const errorMessage = args.join(' ');
+
+                                // Проверяем наличие ошибок от GetCourse/AccelSite
+                                if (errorMessage.includes('success') && errorMessage.includes('false') ||
+                                    errorMessage.includes('internalError') ||
+                                    errorMessage.includes('ViewDataDictionary') ||
+                                    errorMessage.includes('AccelSite')) {
+                                    serverErrorDetected = true;
+                                    showErrorMessage();
+                                }
+
+                                originalError.apply(console, args);
+                            };
+
+                            // Перехватываем fetch/XHR запросы для отслеживания ошибок API
+                            const originalFetch = window.fetch;
+                            window.fetch = function(...args) {
+                                return originalFetch.apply(this, args).then(response => {
+                                    // Если ответ не успешный и связан с формой
+                                    if (!response.ok && args[0] && args[0].includes('getcourse')) {
+                                        response.clone().json().then(data => {
+                                            if (data && data.success === false) {
+                                                serverErrorDetected = true;
+                                                showErrorMessage();
+                                            }
+                                        }).catch(() => {});
+                                    }
+                                    return response;
+                                });
+                            };
+
+                            // Слушаем сообщения от iframe (если форма шлет ошибки через postMessage)
+                            window.addEventListener('message', function(event) {
+                                if (event.data && typeof event.data === 'object') {
+                                    if (event.data.success === false || event.data.error || event.data.errors) {
+                                        serverErrorDetected = true;
+                                        showErrorMessage();
+                                    }
+                                }
+                            });
+
                             // Быстрая проверка каждые 100ms
                             let checkAttempts = 0;
                             const maxAttempts = 50; // 5 секунд проверки (50 * 100ms)
@@ -843,13 +899,13 @@
                                 // Ищем iframe с анкетой
                                 const iframe = document.querySelector('#l-mxRjHXc0m8PBeMVWn-Hw');
 
-                                if (iframe && !formLoaded) {
+                                if (iframe && !formLoaded && !serverErrorDetected) {
                                     // Iframe найден - форма загрузилась
                                     formLoaded = true;
                                     clearInterval(checkInterval);
                                     hideLoader();
                                     console.log('✅ Form loaded successfully');
-                                } else if (checkAttempts >= maxAttempts && !formLoaded && !scriptErrorDetected) {
+                                } else if (checkAttempts >= maxAttempts && !formLoaded && !scriptErrorDetected && !serverErrorDetected) {
                                     // Iframe не загрузился за 5 секунд
                                     clearInterval(checkInterval);
                                     showVpnMessage();
@@ -861,11 +917,21 @@
                             }
 
                             function showVpnMessage() {
-                                if (!formLoaded) {
+                                if (!formLoaded && !serverErrorDetected) {
                                     document.getElementById('form-loader').style.display = 'none';
                                     document.getElementById('vpn-message').style.display = 'block';
                                     document.getElementById('form-widget-wrapper').style.display = 'none';
                                     console.log('⚠️ Form failed to load, VPN message shown');
+                                }
+                            }
+
+                            function showErrorMessage() {
+                                if (!formLoaded) {
+                                    document.getElementById('form-loader').style.display = 'none';
+                                    document.getElementById('vpn-message').style.display = 'none';
+                                    document.getElementById('error-message').style.display = 'block';
+                                    document.getElementById('form-widget-wrapper').style.display = 'none';
+                                    console.log('❌ Server error detected, error message shown');
                                 }
                             }
                         })();
