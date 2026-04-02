@@ -1,0 +1,1679 @@
+<html lang="ru" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#050508">
+
+    <title>Backend Python + AI | Путь в удалённую разработку за 5 месяцев</title>
+
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://code.iconify.design">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- iOS Safari specific -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        dark: '#050508',
+                        brand: '#00e87b',
+                        brandRed: '#ff4444',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        body {
+            background-color: #050508;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            /* Chrome specific fixes */
+            position: relative;
+            will-change: auto;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            contain: layout;
+        }
+
+        /* Safari fix for backdrop-filter */
+        @supports (-webkit-backdrop-filter: blur(16px)) or (backdrop-filter: blur(16px)) {
+            .glass-card {
+                background: rgba(255, 255, 255, 0.03);
+            }
+        }
+
+        /* Fallback for browsers without backdrop-filter support */
+        @supports not ((-webkit-backdrop-filter: blur(16px)) or (backdrop-filter: blur(16px))) {
+            .glass-card {
+                background: rgba(255, 255, 255, 0.08);
+            }
+        }
+
+        .glass-card-hover:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            -webkit-transform: translateY(-2px);
+            -moz-transform: translateY(-2px);
+            -ms-transform: translateY(-2px);
+            transition: all 0.3s ease;
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+        }
+
+        .text-gradient {
+            background: linear-gradient(to bottom, #ffffff, #a1a1aa);
+            background: -webkit-linear-gradient(top, #ffffff, #a1a1aa);
+            background: -moz-linear-gradient(top, #ffffff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+                -webkit-transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                -webkit-transform: translateY(0);
+            }
+        }
+
+        @-webkit-keyframes fadeIn {
+            from {
+                opacity: 0;
+                -webkit-transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                -webkit-transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+            -webkit-animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Prevent text selection issues on mobile */
+        img {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        /* Smooth scrolling for all browsers */
+        html {
+            scroll-behavior: smooth;
+            -webkit-scroll-behavior: smooth;
+        }
+
+        /* Fix for iOS Safari rounded corners */
+        @supports (-webkit-overflow-scrolling: touch) {
+            .glass-card {
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+            }
+        }
+
+        /* Prevent horizontal scroll on mobile */
+        body, html {
+            max-width: 100%;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* Fix for Chrome rendering issues */
+        section {
+            position: relative;
+            isolation: isolate;
+            z-index: 1;
+            clear: both;
+        }
+
+        section::before {
+            content: '';
+            display: block;
+            height: 0;
+            clear: both;
+        }
+
+        /* Ensure images don't cause layout issues in Chrome */
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Chrome blur rendering fix */
+        @supports (-webkit-backdrop-filter: blur(16px)) {
+            .glass-card {
+                -webkit-font-smoothing: subpixel-antialiased;
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        /* Additional Chrome fixes for layout */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            .glass-card {
+                -webkit-backface-visibility: hidden;
+                -webkit-perspective: 1000;
+            }
+        }
+    </style>
+</head>
+<body class="font-outfit relative overflow-x-hidden selection:bg-brand selection:text-dark">
+
+    <!-- Noise Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Ambient Glow -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute top-[-10%] left-[20%] w-96 h-96 bg-brand/10 rounded-full blur-[120px] animate-blob mix-blend-screen"></div>
+        <div class="absolute bottom-[20%] right-[10%] w-80 h-80 bg-blue-500/10 rounded-full blur-[100px] animate-blob animation-delay-2000 mix-blend-screen"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-40 px-6 py-6 flex justify-between items-center pointer-events-none">
+        <a href="/" class="glass-card pointer-events-auto px-4 py-2 rounded-full hover:bg-white/10 transition-all">
+            <span class="font-bold tracking-tight text-lg">M</span>
+        </a>
+    </nav>
+
+    <!-- Слайд 1: Обложка -->
+    <section class="relative z-10 min-h-screen flex flex-col justify-center items-center px-4 pt-20 pb-10 text-center">
+        <div class="fade-in" style="animation-delay: 0.1s;">
+            <div class="inline-flex items-center gap-2 glass-card rounded-full px-3 py-1.5 mb-8">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-brand"></span>
+                </span>
+                <span class="font-mono text-xs tracking-wide text-gray-300">5 МЕСЯЦЕВ</span>
+            </div>
+        </div>
+
+        <h1 class="fade-in text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-gradient mb-6 leading-[0.9]" style="animation-delay: 0.2s;">
+            Backend Python + AI
+        </h1>
+
+        <p class="fade-in text-xl md:text-2xl text-white max-w-3xl mx-auto mb-4 leading-tight font-medium" style="animation-delay: 0.3s;">
+            Путь в удалённую разработку с доходом выше текущего потолка
+        </p>
+
+        <p class="fade-in text-base md:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed font-light" style="animation-delay: 0.35s;">
+            Практика, проекты, сопровождение и выход на рынок без хаоса и лишней теории
+        </p>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 2: Точка А → Точка Б -->
+    <section class="relative z-10 py-24 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Трансформация</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-12">Точка А → Точка Б</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Точка А -->
+                <div class="glass-card rounded-2xl p-8">
+                    <h3 class="text-xl font-semibold text-red-400 mb-6">Сейчас</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:close-circle-linear" class="text-red-400 shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Низкий доход, потолок в зарплате</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:close-circle-linear" class="text-red-400 shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Отсутствие перспектив</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:close-circle-linear" class="text-red-400 shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Страх смены профессии</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:close-circle-linear" class="text-red-400 shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Хаос информации</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Точка Б -->
+                <div class="glass-card rounded-2xl p-8 border-brand/30">
+                    <h3 class="text-xl font-semibold text-brand mb-6">Через 5 месяцев</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Навык backend-разработки</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Проекты в портфолио</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Уверенность в силах</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Понятный путь к удалёнке</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <span>Шанс выйти на доход 120-180K+</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-8 glass-card rounded-2xl p-6 text-center">
+                <p class="text-lg text-gray-300">Задача программы — перевести тебя в другую карьерную траекторию</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 3: Почему сейчас люди идут в IT -->
+    <section class="relative z-10 py-24 px-4 bg-white/[0.01]">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Рынок</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">Почему сейчас люди идут в IT</h2>
+            <p class="text-xl text-gray-400 mb-12">Цифры по вакансиям, спросу, форматам удалённой работы, вилкам зарплат</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="glass-card glass-card-hover rounded-2xl p-6">
+                    <div class="w-12 h-12 mb-4 flex items-center justify-center rounded-xl bg-brand/10">
+                        <iconify-icon icon="solar:check-circle-bold" class="text-brand" width="24"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-3">БОЛЬШЕ<br>ВАКАНСИЙ</h3>
+                    <p class="text-gray-400 text-sm">Среднее количество новых вакансий в день — 1 623</p>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6">
+                    <div class="w-12 h-12 mb-4 flex items-center justify-center rounded-xl bg-brand/10">
+                        <iconify-icon icon="solar:graph-up-bold" class="text-brand" width="24"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-3">БЫСТРЫЙ<br>РОСТ</h3>
+                    <p class="text-gray-400 text-sm">Рынок в первую очередь ищет мидлов, а джуны также остаются востребованными</p>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6">
+                    <div class="w-12 h-12 mb-4 flex items-center justify-center rounded-xl bg-brand/10">
+                        <iconify-icon icon="solar:global-bold" class="text-brand" width="24"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-3">ШИРОКИЙ<br>РЫНОК</h3>
+                    <p class="text-gray-400 text-sm">Каждая 4-ая вакансия с удаленным форматом работы</p>
+                </div>
+            </div>
+
+            <!-- Статистика опыта работы -->
+            <div class="glass-card rounded-3xl p-8">
+                <h4 class="text-xl font-semibold text-white mb-6">Опыт работы</h4>
+                <p class="text-gray-300 mb-4">HH.ru делит опыт на 4 группы. Самые востребованные:</p>
+                <ul class="space-y-3">
+                    <li class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-brand shrink-0"></div>
+                        <span class="text-gray-300">От 1 года до 3 лет — <span class="text-brand font-semibold">43%</span></span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-brand/70 shrink-0"></div>
+                        <span class="text-gray-300">От 3 до 6 лет — <span class="text-brand/70 font-semibold">34%</span></span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-brand/50 shrink-0"></div>
+                        <span class="text-gray-300">Нет опыта — <span class="text-brand/50 font-semibold">17%</span></span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-brand/30 shrink-0"></div>
+                        <span class="text-gray-300">Более 6 лет — <span class="text-brand/30 font-semibold">6%</span></span>
+                    </li>
+                </ul>
+                <p class="text-gray-400 text-sm mt-6">То есть рынок в первую очередь ищет <span class="text-brand font-medium">мидлов</span>, а <span class="text-brand font-medium">джуны</span> тоже остаются востребованными.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 4: Почему именно Backend -->
+    <section class="relative z-10 py-24 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Направление</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-8">Почему именно Backend</h2>
+
+            <div class="glass-card rounded-3xl p-8 md:p-12 mb-8">
+                <p class="text-xl md:text-2xl text-gray-200 leading-relaxed">
+                    Backend — это то, без чего не работают сервисы, оплаты, кабинеты, данные и логика продукта. <span class="text-white font-medium">Это не узкая штука для гиков, а фундамент, за который бизнес платит деньги.</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-card rounded-2xl p-6">
+                    <iconify-icon icon="solar:case-linear" class="text-brand mb-3" width="32"></iconify-icon>
+                    <h3 class="text-lg font-semibold text-white mb-3">Много вакансий</h3>
+                    <p class="text-gray-400 text-sm">Backend нужен почти в каждом цифровом продукте</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <iconify-icon icon="solar:planet-linear" class="text-brand mb-3" width="32"></iconify-icon>
+                    <h3 class="text-lg font-semibold text-white mb-3">Универсальность</h3>
+                    <p class="text-gray-400 text-sm">Навык нужен в разных бизнесах</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <iconify-icon icon="solar:wallet-money-linear" class="text-brand mb-3" width="32"></iconify-icon>
+                    <h3 class="text-lg font-semibold text-white mb-3">Легче монетизировать</h3>
+                    <p class="text-gray-400 text-sm">Сильная база для роста</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <iconify-icon icon="solar:chart-linear" class="text-brand mb-3" width="32"></iconify-icon>
+                    <h3 class="text-lg font-semibold text-white mb-3">Устойчивая профессия</h3>
+                    <p class="text-gray-400 text-sm">Не хайповая надстройка, а базовая роль</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 5: Где Backend применяется -->
+    <section class="relative z-10 py-24 px-4 bg-white/[0.01]">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Применение</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">Где Backend применяется</h2>
+            <p class="text-xl text-gray-400 mb-12">Не завязан на один тип компании — можешь идти куда угодно</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+                <!-- МАРКЕТПЛЕЙСЫ -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-brand text-lg font-bold mb-4">МАРКЕТПЛЕЙСЫ</h3>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li>• регистрация пользователей и продавцов</li>
+                        <li>• каталог товаров</li>
+                        <li>• поиск и фильтрация</li>
+                        <li>• корзина и заказы</li>
+                        <li>• платежи</li>
+                    </ul>
+                </div>
+
+                <!-- БАНКИ -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-brand text-lg font-bold mb-4">БАНКИ</h3>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li>• открытие счетов</li>
+                        <li>• платежи и переводы</li>
+                        <li>• личный кабинет</li>
+                        <li>• карты</li>
+                    </ul>
+                </div>
+
+                <!-- CRM -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-brand text-lg font-bold mb-4">CRM</h3>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li>• статусы воронки</li>
+                        <li>• задачи менеджеров</li>
+                        <li>• комментарии</li>
+                        <li>• телефония</li>
+                    </ul>
+                </div>
+
+                <!-- СЕРВИСЫ ДОСТАВКИ -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-brand text-lg font-bold mb-4">СЕРВИСЫ ДОСТАВКИ</h3>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li>• назначает курьера</li>
+                        <li>• строит маршрут</li>
+                        <li>• отслеживает статус</li>
+                        <li>• обрабатывает оплату</li>
+                    </ul>
+                </div>
+
+                <!-- EdTech -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-brand text-lg font-bold mb-4">EdTech</h3>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li>• домашки</li>
+                        <li>• тесты</li>
+                        <li>• вебинары</li>
+                        <li>• прогресс ученика</li>
+                    </ul>
+                </div>
+
+                <!-- AI-ИНСТРУМЕНТЫ -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-brand text-lg font-bold mb-4">AI-ИНСТРУМЕНТЫ</h3>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li>• работает с моделями</li>
+                        <li>• управляет промптами</li>
+                        <li>• вызывает внешние API</li>
+                    </ul>
+                </div>
+
+                <!-- ВНУТРЕННИЕ ПЛАТФОРМЫ -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-brand text-lg font-bold mb-4">ВНУТРЕННИЕ ПЛАТФОРМЫ КОМПАНИЙ</h3>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li>• системы согласований</li>
+                        <li>• панели аналитики</li>
+                        <li>• HR-сервисы</li>
+                        <li>• сервисы для поддержки</li>
+                    </ul>
+                </div>
+
+                <!-- Пустой слот для баланса сетки -->
+                <div></div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-8 text-center">
+                <p class="text-lg text-gray-300"><span class="text-white font-semibold">Чем шире применим навык,</span><br>тем меньше риск застрять без работы и больше конкуренции за таких специалистов</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 6: Python + AI -->
+    <section class="relative z-10 py-24 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Технологии</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">Почему Python + AI</h2>
+            <p class="text-xl text-gray-400 mb-12">Быстрее вход, выше продуктивность, сильнее позиция</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-card rounded-2xl p-8">
+                    <iconify-icon icon="solar:code-circle-linear" class="text-brand mb-4" width="40"></iconify-icon>
+                    <h3 class="text-xl font-semibold text-white mb-3">Python</h3>
+                    <p class="text-gray-300 mb-3">Используют в web, backend, автоматизации и AI — расширяет рынок возможностей</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-8">
+                    <iconify-icon icon="solar:star-shine-linear" class="text-brand mb-4" width="40"></iconify-icon>
+                    <h3 class="text-xl font-semibold text-white mb-3">AI как усилитель</h3>
+                    <p class="text-gray-300 mb-3">Помогает писать код, разбирать ошибки, ускорять рутину</p>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-8 md:p-10 border-l-4 border-l-brand">
+                <p class="text-lg md:text-xl text-gray-200 leading-relaxed">
+                    <span class="text-brand font-semibold">AI может закрывать 60-80% рутины</span>, пока ты принимаешь инженерные решения и растёшь быстрее
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 7-8-9: Проблема и Решение -->
+    <section class="relative z-10 py-24 px-4 bg-white/[0.01]">
+        <div class="max-w-6xl mx-auto">
+            <!-- Слайд 7 -->
+            <div class="mb-16">
+                <div class="mb-6">
+                    <span class="font-mono text-brandRed text-xs uppercase tracking-widest opacity-80 border border-brandRed/20 px-2 py-1 rounded">Проблема</span>
+                </div>
+
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-8">Почему у большинства не получается войти в IT</h2>
+
+                <div class="glass-card rounded-3xl p-8 md:p-10 mb-12 text-center">
+                    <p class="text-2xl md:text-3xl text-white font-bold mb-4">Проблема не в тебе</p>
+                    <p class="text-xl text-gray-300">Проблема в маршруте, который не доводит до результата</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div class="glass-card rounded-2xl p-6">
+                        <iconify-icon icon="solar:close-circle-linear" class="text-red-400 mb-3" width="28"></iconify-icon>
+                        <h4 class="text-lg font-semibold text-white mb-2">Перегруз теорией</h4>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6">
+                        <iconify-icon icon="solar:close-circle-linear" class="text-red-400 mb-3" width="28"></iconify-icon>
+                        <h4 class="text-lg font-semibold text-white mb-2">Шаблонные работы</h4>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6">
+                        <iconify-icon icon="solar:close-circle-linear" class="text-red-400 mb-3" width="28"></iconify-icon>
+                        <h4 class="text-lg font-semibold text-white mb-2">Отсутствие сопровождения</h4>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6">
+                        <iconify-icon icon="solar:close-circle-linear" class="text-red-400 mb-3" width="28"></iconify-icon>
+                        <h4 class="text-lg font-semibold text-white mb-2">Нет карьерного мостика к работе</h4>
+                    </div>
+                </div>
+
+                <div class="text-center text-gray-400 italic">
+                    <p>А теперь посмотрим, почему на массовом рынке это происходит почти у всех</p>
+                </div>
+            </div>
+
+            <!-- Слайд 9: Реалии рынка -->
+            <div class="mb-16">
+                <h3 class="text-2xl md:text-3xl font-bold text-white mb-8 text-center">Реалии рынка</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Что обещают -->
+                    <div class="glass-card rounded-3xl p-8">
+                        <h4 class="text-xl font-bold text-white mb-6 text-center">Что обещают</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <div class="w-1.5 h-1.5 rounded-full bg-gray-400 shrink-0 mt-2"></div>
+                                <span class="text-gray-300">довести до трудоустройства</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-1.5 h-1.5 rounded-full bg-gray-400 shrink-0 mt-2"></div>
+                                <span class="text-gray-300">научить крутой профессии</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-1.5 h-1.5 rounded-full bg-gray-400 shrink-0 mt-2"></div>
+                                <span class="text-gray-300">золотые горы и актуальную инфу</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Что получают -->
+                    <div class="glass-card rounded-3xl p-8 border-red-500/30">
+                        <h4 class="text-xl font-bold text-white mb-6 text-center">Что человек получает по факту</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <div class="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0 mt-2"></div>
+                                <span class="text-gray-300">теоретические уроки (разбирайся сам)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0 mt-2"></div>
+                                <span class="text-gray-300">сотни таких же выпускников и проектов под копирку</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0 mt-2"></div>
+                                <span class="text-gray-300">мало внимания</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0 mt-2"></div>
+                                <span class="text-gray-300">слабая обратная связь</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0 mt-2"></div>
+                                <span class="text-gray-300">нет реальной подготовки к рынку</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0 mt-2"></div>
+                                <span class="text-gray-300">человек не выделяется и не зарабатывает</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-8 glass-card rounded-2xl p-6 text-center">
+                    <p class="text-gray-300 italic">Слишком массовый подход, поэтому выпускник часто остаётся обычным кандидатом без ощутимого преимущества</p>
+                </div>
+            </div>
+
+            <!-- Слайд 9: Решение -->
+            <div>
+                <div class="mb-6">
+                    <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Решение</span>
+                </div>
+
+                <h3 class="text-2xl md:text-3xl font-bold text-white mb-8">Почему у нас иначе</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <div class="glass-card rounded-2xl p-8 text-center">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-brand/10 flex items-center justify-center">
+                            <iconify-icon icon="solar:code-2-bold" class="text-brand" width="32"></iconify-icon>
+                        </div>
+                        <h4 class="text-xl font-bold text-brand mb-4">ПРАКТИКА И ЛАЙВКОДИНГ</h4>
+                        <p class="text-gray-300 text-sm">не просто знания и разбирайся сам, а реальные навыки и практика</p>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-8 text-center">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-brand/10 flex items-center justify-center">
+                            <iconify-icon icon="solar:user-check-bold" class="text-brand" width="32"></iconify-icon>
+                        </div>
+                        <h4 class="text-xl font-bold text-brand mb-4">НАСТАВНИК-ПРАКТИК</h4>
+                        <p class="text-gray-300 text-sm">быстрый прогресс, объяснение сути и демонстрация как срезать углы</p>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-8 text-center">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-brand/10 flex items-center justify-center">
+                            <iconify-icon icon="solar:folder-with-files-bold" class="text-brand" width="32"></iconify-icon>
+                        </div>
+                        <h4 class="text-xl font-bold text-brand mb-4">ПРОЕКТЫ И GITHUB</h4>
+                        <p class="text-gray-300 text-sm">Больше откликов и собеседований, тобой заинтересованы</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-3xl p-8 md:p-10 mb-8">
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-bold" class="text-brand shrink-0 mt-1" width="24"></iconify-icon>
+                            <span class="text-white text-lg">Нет путаницы из теории</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-bold" class="text-brand shrink-0 mt-1" width="24"></iconify-icon>
+                            <span class="text-white text-lg">Уверенность в себе как в профессионале</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-bold" class="text-brand shrink-0 mt-1" width="24"></iconify-icon>
+                            <span class="text-white text-lg">Гарантия работы в IT</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-bold" class="text-brand shrink-0 mt-1" width="24"></iconify-icon>
+                            <span class="text-white text-lg">Рост в доходе в несколько раз в пару лет</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="glass-card rounded-3xl p-8 md:p-10 border-brand/30 text-center">
+                    <p class="text-2xl md:text-3xl text-brand font-bold">
+                        Все для того, чтобы через несколько месяцев твоя жизнь изменилась на 180 градусов
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 10: Кто ведёт курс -->
+    <section class="relative z-10 py-24 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Команда</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">Авторы курса</h2>
+            <p class="text-xl text-gray-400 mb-12">Люди, которые реально живут в профессии</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="glass-card p-8 rounded-3xl">
+                    <h3 class="text-2xl font-bold text-white mb-6">Honey Montana</h3>
+                    <div class="space-y-4 text-gray-300 text-base leading-relaxed font-light">
+                        <p class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-1" width="20"></iconify-icon>
+                            <span>Автор одного из самых крупных айти каналов на ютубе (230k+)</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-1" width="20"></iconify-icon>
+                            <span>Обучил более 100 учеников</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-1" width="20"></iconify-icon>
+                            <span>Разработал собственную методику обучения</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-3xl border-brand/20">
+                    <h3 class="text-2xl font-bold text-white mb-2">
+                        <a href="https://youtu.be/CfJLc2vRmIs" target="_blank" class="hover:text-brand transition-colors duration-300">Руслан Алиев</a>
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-6 font-mono">Соавтор и архитектор курса</p>
+                    <div class="space-y-4 text-gray-300 text-base leading-relaxed font-light">
+                        <p class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-1" width="20"></iconify-icon>
+                            <span>Senior Python Backend Developer и Team Lead с 7+ годами коммерческой разработки</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-1" width="20"></iconify-icon>
+                            <span>Проектирует архитектурные решения на Django, FastAPI, Kafka, PostgreSQL, Docker и внедряет best practices</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-1" width="20"></iconify-icon>
+                            <span>Обучил 100+ учеников с нуля до полноценного Python Backend-проекта</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 11: Что получишь за 5 месяцев -->
+    <section class="relative z-10 py-24 px-4 bg-white/[0.01]">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Результат</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">Что ты реально получишь за 5 месяцев</h2>
+            <p class="text-xl text-gray-400 mb-12">Новую стартовую позицию на рынке</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="glass-card glass-card-hover rounded-2xl p-6">
+                    <div class="text-3xl mb-3">⚙️</div>
+                    <h3 class="text-lg font-semibold text-white mb-3">Навык</h3>
+                    <p class="text-gray-400 text-sm">Backend на Python: API, БД, архитектура</p>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6">
+                    <div class="text-3xl mb-3">💼</div>
+                    <h3 class="text-lg font-semibold text-white mb-3">Проекты</h3>
+                    <p class="text-gray-400 text-sm">Реальные работы на GitHub</p>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6">
+                    <div class="text-3xl mb-3">🎯</div>
+                    <h3 class="text-lg font-semibold text-white mb-3">Понимание</h3>
+                    <p class="text-gray-400 text-sm">Как работают бизнес-задачи</p>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6">
+                    <div class="text-3xl mb-3">✅</div>
+                    <h3 class="text-lg font-semibold text-white mb-3">Собеседования</h3>
+                    <p class="text-gray-400 text-sm">Способность пройти воронку</p>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6">
+                    <div class="text-3xl mb-3">💰</div>
+                    <h3 class="text-lg font-semibold text-white mb-3">Перспектива</h3>
+                    <p class="text-gray-400 text-sm">Рост к 120-180K+</p>
+                </div>
+
+                <div class="glass-card glass-card-hover rounded-2xl p-6">
+                    <div class="text-3xl mb-3">🚀</div>
+                    <h3 class="text-lg font-semibold text-white mb-3">AI-арсенал</h3>
+                    <p class="text-gray-400 text-sm">Профессиональный усилитель</p>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-8 md:p-10 bg-gradient-to-br from-brand/5 to-transparent border-brand/20">
+                <p class="text-xl text-gray-200 leading-relaxed">
+                    Это шаг к рынку, <span class="text-brand font-semibold">где потолок выше текущего дохода</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 12: 3 этапа -->
+    <section class="relative z-10 py-24 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Программа</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">3 этапа обучения</h2>
+            <p class="text-xl text-gray-400 mb-12">Путь организован так, чтобы ты не развалился на середине</p>
+
+            <div class="space-y-6">
+                <div class="glass-card rounded-2xl p-8 md:p-10">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-brand/10 flex items-center justify-center shrink-0">
+                            <span class="text-brand font-bold text-xl">1</span>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-2">Вход и база без хаоса</h3>
+                            <p class="text-gray-400">Python-основы, алгоритмы, Git, консоль</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-8 md:p-10">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-brand/10 flex items-center justify-center shrink-0">
+                            <span class="text-brand font-bold text-xl">2</span>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-2">Backend-задачи и AI-практика</h3>
+                            <p class="text-gray-400">Web, API, БД, архитектура. AI как ускоритель</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-8 md:p-10 border-brand/30">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-brand/20 flex items-center justify-center shrink-0">
+                            <span class="text-brand font-bold text-xl">3</span>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-2">Проект и выход на рынок</h3>
+                            <p class="text-gray-400">Деплой, GitHub, резюме, собеседования</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 13: Что изменит через 9-12 месяцев -->
+    <section class="relative z-10 py-24 px-4 bg-white/[0.01]">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Жизнь после</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-12">Что это изменит через 9-12 месяцев</h2>
+
+            <div class="glass-card rounded-3xl p-8 md:p-12 mb-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                    <div>
+                        <div class="text-sm text-gray-500 font-mono mb-3 uppercase">Сейчас</div>
+                        <ul class="space-y-3 text-gray-400">
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-400 mt-1">×</span>
+                                <span>50-90K и потолок</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-400 mt-1">×</span>
+                                <span>От зарплаты до зарплаты</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-400 mt-1">×</span>
+                                <span>Привязка к офису</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-400 mt-1">×</span>
+                                <span>Тревога за будущее</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="text-sm text-brand font-mono mb-3 uppercase">Потом</div>
+                        <ul class="space-y-3 text-gray-200">
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand mt-1">✓</span>
+                                <span>120-180K+ и выше</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand mt-1">✓</span>
+                                <span>Планировать жизнь</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand mt-1">✓</span>
+                                <span>Удалённо откуда угодно</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-brand mt-1">✓</span>
+                                <span>Уверенность в будущем</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-8 md:p-10 border-l-4 border-l-brand">
+                <p class="text-xl md:text-2xl text-gray-200 leading-relaxed">
+                    <span class="text-white font-semibold">Взрослая и более свободная версия твоей реальности.</span> Больше выбора. Меньше тревоги.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 14: Риски -->
+    <section class="relative z-10 py-24 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Снятие рисков</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-12">Риски новичка — и как мы их закрываем</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-start gap-4">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-yellow-400 shrink-0 mt-1" width="24"></iconify-icon>
+                        <div>
+                            <h3 class="text-white font-semibold mb-2">Не справлюсь</h3>
+                            <p class="text-gray-400 text-sm">Пошаговая программа без резких скачков</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-start gap-4">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-yellow-400 shrink-0 mt-1" width="24"></iconify-icon>
+                        <div>
+                            <h3 class="text-white font-semibold mb-2">Потеряюсь</h3>
+                            <p class="text-gray-400 text-sm">Маршрут и сопровождение на каждом этапе</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-start gap-4">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-yellow-400 shrink-0 mt-1" width="24"></iconify-icon>
+                        <div>
+                            <h3 class="text-white font-semibold mb-2">Будет сложно</h3>
+                            <p class="text-gray-400 text-sm">Code review и поддержка от senior</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-start gap-4">
+                        <iconify-icon icon="solar:danger-triangle-linear" class="text-yellow-400 shrink-0 mt-1" width="24"></iconify-icon>
+                        <div>
+                            <h3 class="text-white font-semibold mb-2">Не выйду к работе</h3>
+                            <p class="text-gray-400 text-sm">Карьерный трек и подготовка к рынку</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 15: Цена и позиционирование -->
+    <section class="relative z-10 py-24 px-4 bg-white/[0.01]">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Ценность</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-8">Почему цена такая</h2>
+
+            <div class="glass-card rounded-3xl p-8 md:p-12 mb-8">
+                <p class="text-xl md:text-2xl text-gray-200 leading-relaxed mb-6">
+                    Мы не корпорация, и нам не нужны все деньги мира. <span class="text-white font-medium">Нам важнее собрать сильные кейсы и дать сильный результат первым потокам.</span>
+                </p>
+                <p class="text-lg text-gray-400">
+                    Если бы такой продукт вёлся в крупной школе вроде Skillbox с той же глубиной, AI-блоком и сопровождением — он стоил бы <span class="text-brand font-semibold">400-500 тыс.</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card rounded-2xl p-6">
+                    <iconify-icon icon="solar:star-linear" class="text-brand mb-3" width="28"></iconify-icon>
+                    <h3 class="text-white font-semibold mb-2">Стартовые условия</h3>
+                    <p class="text-gray-400 text-sm">Первые потоки по особой цене</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <iconify-icon icon="solar:shield-check-linear" class="text-brand mb-3" width="28"></iconify-icon>
+                    <h3 class="text-white font-semibold mb-2">Качество, не количество</h3>
+                    <p class="text-gray-400 text-sm">Ставка на результат, не на выручку</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <iconify-icon icon="solar:users-group-two-rounded-linear" class="text-brand mb-3" width="28"></iconify-icon>
+                    <h3 class="text-white font-semibold mb-2">Ограниченное внимание</h3>
+                    <p class="text-gray-400 text-sm">Небольшие группы для качества</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 16-17: Формат и кому подойдёт -->
+    <section class="relative z-10 py-24 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Слайд 16: Формат -->
+                <div>
+                    <div class="mb-4">
+                        <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Формат</span>
+                    </div>
+
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-6">Как устроено</h3>
+
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300">5 месяцев онлайн</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300">46 видеоуроков с практикой</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300">Живые разборы и созвоны</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300">Code review от Senior</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300">Поддержка в чате</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300">Гарантия возврата</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Слайд 17: Кому подойдёт -->
+                <div>
+                    <div class="mb-4">
+                        <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Целевая аудитория</span>
+                    </div>
+
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-6">Кому подойдёт</h3>
+
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:user-check-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300">Хочешь в IT и устал от хаоса</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:user-check-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300">Не хочешь тонуть в теории</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:user-check-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300">Ищешь сильный навык</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:user-check-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300">Хочешь вырасти по деньгам</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:user-check-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300">Нужна поддержка по пути</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 18: Переход к closing блоку -->
+    <section class="relative z-10 py-16 px-4 bg-white/[0.01]">
+        <div class="max-w-3xl mx-auto text-center">
+            <p class="text-xl md:text-2xl text-gray-300 leading-relaxed">
+                Теперь давай посмотрим, <span class="text-white font-medium">сколько на самом деле стоит дойти до такого результата</span> другими путями — и что ты получаешь здесь
+            </p>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 19: Сравнение с альтернативами -->
+    <section class="relative z-10 py-24 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Сравнение</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-12">Сколько это стоит на самом деле</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+                <div class="glass-card rounded-2xl p-6 border-red-500/20">
+                    <div class="flex items-center gap-2 mb-4">
+                        <iconify-icon icon="solar:building-2-linear" class="text-gray-400" width="24"></iconify-icon>
+                        <h3 class="text-lg font-semibold text-white">Skillbox</h3>
+                    </div>
+                    <div class="mb-4">
+                        <div class="text-2xl font-bold text-white mb-1">133-283K ₽</div>
+                        <div class="text-sm text-gray-400">9-24 месяца</div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="flex gap-2"><span class="text-red-400">×</span> Без AI</li>
+                        <li class="flex gap-2"><span class="text-red-400">×</span> Потоковая модель</li>
+                        <li class="flex gap-2"><span class="text-red-400">×</span> Долгий срок</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 border-red-500/20">
+                    <div class="flex items-center gap-2 mb-4">
+                        <iconify-icon icon="solar:book-2-linear" class="text-gray-400" width="24"></iconify-icon>
+                        <h3 class="text-lg font-semibold text-white">Яндекс Практикум</h3>
+                    </div>
+                    <div class="mb-4">
+                        <div class="text-2xl font-bold text-white mb-1">140-252K ₽</div>
+                        <div class="text-sm text-gray-400">5-18 месяцев</div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="flex gap-2"><span class="text-red-400">×</span> Без AI-арсенала</li>
+                        <li class="flex gap-2"><span class="text-red-400">×</span> Шаблонные проекты</li>
+                        <li class="flex gap-2"><span class="text-red-400">×</span> Слабая персонализация</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 border-red-500/20">
+                    <div class="flex items-center gap-2 mb-4">
+                        <iconify-icon icon="solar:laptop-minimalistic-linear" class="text-gray-400" width="24"></iconify-icon>
+                        <h3 class="text-lg font-semibold text-white">Самообучение</h3>
+                    </div>
+                    <div class="mb-4">
+                        <div class="text-2xl font-bold text-white mb-1">~0 ₽</div>
+                        <div class="text-sm text-gray-400">12+ месяцев</div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="flex gap-2"><span class="text-red-400">×</span> 80-90% бросают</li>
+                        <li class="flex gap-2"><span class="text-red-400">×</span> Нет обратной связи</li>
+                        <li class="flex gap-2"><span class="text-red-400">×</span> Хаос и тупики</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-8 md:p-10 border-brand/30 shadow-[0_0_40px_-15px_rgba(0,232,123,0.15)]">
+                <h3 class="text-2xl font-bold text-white mb-6 text-center">Что ты получаешь здесь</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <div class="flex items-start gap-3">
+                        <iconify-icon icon="solar:check-circle-bold" class="text-brand shrink-0 mt-1" width="20"></iconify-icon>
+                        <span class="text-gray-200">46 видеоуроков с практикой</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <iconify-icon icon="solar:check-circle-bold" class="text-brand shrink-0 mt-1" width="20"></iconify-icon>
+                        <span class="text-gray-200">Code review</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <iconify-icon icon="solar:check-circle-bold" class="text-brand shrink-0 mt-1" width="20"></iconify-icon>
+                        <span class="text-gray-200">Карьерный трек</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <iconify-icon icon="solar:check-circle-bold" class="text-brand shrink-0 mt-1" width="20"></iconify-icon>
+                        <span class="text-gray-200">AI-арсенал</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <iconify-icon icon="solar:check-circle-bold" class="text-brand shrink-0 mt-1" width="20"></iconify-icon>
+                        <span class="text-gray-200">Чат-поддержка</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <iconify-icon icon="solar:check-circle-bold" class="text-brand shrink-0 mt-1" width="20"></iconify-icon>
+                        <span class="text-gray-200">Гарантия возврата</span>
+                    </div>
+                </div>
+
+                <div class="text-center pt-6 border-t border-white/10">
+                    <p class="text-gray-400 mb-2">Суммарная ценность программы</p>
+                    <p class="text-3xl md:text-4xl font-bold text-brand">от 185 000 ₽</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 20: 3 вопроса -->
+    <section class="relative z-10 py-24 px-4 bg-white/[0.01]">
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Вопросы</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-12">Ответь себе на 3 вопроса</h2>
+
+            <div class="space-y-6">
+                <div class="glass-card rounded-2xl p-8 md:p-10">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full bg-brand/10 flex items-center justify-center shrink-0 mt-1">
+                            <span class="text-brand font-bold">1</span>
+                        </div>
+                        <p class="text-xl md:text-2xl text-gray-200 leading-relaxed">
+                            Если бы через 9-12 месяцев ты зарабатывал <span class="text-white font-semibold">120-180 тысяч рублей удалённо</span> вместо текущих 50-90К и перестал считать дни до зарплаты — стоило бы это инвестиции?
+                        </p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-8 md:p-10">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full bg-brand/10 flex items-center justify-center shrink-0 mt-1">
+                            <span class="text-brand font-bold">2</span>
+                        </div>
+                        <p class="text-xl md:text-2xl text-gray-200 leading-relaxed">
+                            Если бы у тебя было <span class="text-white font-semibold">3 задеплоенных проекта на GitHub</span>, которые открывают двери на собеседования — насколько это ускорило бы твой вход в рынок?
+                        </p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-8 md:p-10">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full bg-brand/10 flex items-center justify-center shrink-0 mt-1">
+                            <span class="text-brand font-bold">3</span>
+                        </div>
+                        <p class="text-xl md:text-2xl text-gray-200 leading-relaxed">
+                            Если бы рядом был <span class="text-white font-semibold">маршрут без хаоса</span>, с поддержкой и понятным следующим шагом — насколько меньше был бы риск снова всё бросить?
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 21: Кураторы -->
+    <section class="relative z-10 py-24 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Сопровождение</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">Кто будет рядом</h2>
+            <p class="text-xl text-gray-400 mb-12">Ты не один смотришь уроки. У тебя рядом люди, которые помогают реально дойти до результата</p>
+
+            <div class="glass-card rounded-3xl p-8 md:p-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-4">Что включает сопровождение</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                                <span class="text-gray-300">Code review от Senior разработчика</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                                <span class="text-gray-300">Разборы задач и ошибок</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                                <span class="text-gray-300">Ответы по коду и архитектуре</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                                <span class="text-gray-300">Карьерная поддержка</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6 bg-white/[0.02]">
+                        <p class="text-lg text-gray-200 leading-relaxed italic">
+                            "Сопровождение — это не декоративная опция, а одна из причин, почему здесь выше шанс дойти до денег и трудоустройства"
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 22: Бонусы и условия -->
+    <section class="relative z-10 py-24 px-4 bg-white/[0.01]">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded">Бонусы</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">Бонусы для тех, кто заходит в этот поток</h2>
+            <p class="text-xl text-gray-400 mb-12">Сейчас ты заходишь по более сильным условиям, чем будут дальше, и забираешь не только программу, но и всё, что ускоряет путь к результату</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Бонус 1 -->
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center shrink-0">
+                            <iconify-icon icon="solar:rocket-2-bold" class="text-brand" width="20"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-2">1. Карьерный спринт</h3>
+                            <p class="text-sm text-gray-400">Пошаговая система подготовки к выходу на рынок</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Бонус 2 -->
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center shrink-0">
+                            <iconify-icon icon="solar:magic-stick-3-bold" class="text-brand" width="20"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-2">2. AI-арсенал разработчика</h3>
+                            <p class="text-sm text-gray-400">Набор проф. AI-инструментов для ускорения работы</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Бонус 3 -->
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center shrink-0">
+                            <iconify-icon icon="solar:map-bold" class="text-brand" width="20"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-2">3. Роадмап после курса до middle</h3>
+                            <p class="text-sm text-gray-400">Чёткий план роста от junior до middle-разработчика</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Бонус 4 -->
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center shrink-0">
+                            <iconify-icon icon="solar:checklist-bold" class="text-brand" width="20"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-2">4. Чек-лист готовности к рынку</h3>
+                            <p class="text-sm text-gray-400">Проверка перед выходом на собеседования</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Бонус 5 -->
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center shrink-0">
+                            <iconify-icon icon="solar:chat-round-like-bold" class="text-brand" width="20"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-2">5. Закрытый чат студентов и выпускников</h3>
+                            <p class="text-sm text-gray-400">Сообщество единомышленников и взаимопомощь</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Бонус 6 -->
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center shrink-0">
+                            <iconify-icon icon="solar:code-bold" class="text-brand" width="20"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-2">6. «Первый код за 60 минут»</h3>
+                            <p class="text-sm text-gray-400">Быстрый старт для новичков без опыта</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Бонус 7 -->
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center shrink-0">
+                            <iconify-icon icon="solar:calendar-mark-bold" class="text-brand" width="20"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-2">7. «Первые 90 дней в IT»</h3>
+                            <p class="text-sm text-gray-400">Стратегия успешного входа в индустрию</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Бонус 8 -->
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center shrink-0">
+                            <iconify-icon icon="solar:laptop-bold" class="text-brand" width="20"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-2">8. «Dev-окружение на любом ноутбуке»</h3>
+                            <p class="text-sm text-gray-400">Настройка рабочей среды разработчика с нуля</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Тарифы -->
+    <section class="relative z-10 py-24 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="font-mono text-brand text-xs uppercase tracking-widest opacity-80 border border-brand/20 px-2 py-1 rounded inline-block mb-6">Тарифы</span>
+                <h2 class="text-4xl md:text-6xl font-bold tracking-tighter text-white mb-4">Выбери свой путь</h2>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto">Три формата обучения под разные цели и темп</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Самостоятельный -->
+                <div class="glass-card rounded-3xl p-8 flex flex-col">
+                    <div class="mb-6">
+                        <h3 class="text-2xl font-bold text-white mb-2">Самостоятельный</h3>
+                        <p class="text-gray-400 text-sm">Для тех, кто готов учиться своими силами</p>
+                    </div>
+
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300 text-sm">Доступ ко всем урокам и материалам</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300 text-sm">Практические задания</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300 text-sm">Общий чат студентов</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300 text-sm">Пожизненный доступ</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- С наставником -->
+                <div class="glass-card rounded-3xl p-8 flex flex-col border-brand/40 shadow-[0_0_40px_-15px_rgba(0,232,123,0.2)] relative">
+                    <div class="absolute top-0 right-0">
+                        <div class="bg-brand text-dark font-mono text-xs font-bold px-4 py-1.5 rounded-bl-xl rounded-tr-3xl uppercase">Популярный</div>
+                    </div>
+
+                    <div class="mb-6 mt-2">
+                        <h3 class="text-2xl font-bold text-white mb-2">С наставником</h3>
+                        <p class="text-gray-400 text-sm">Оптимальный баланс цены и поддержки</p>
+                    </div>
+
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-200 text-sm font-medium">Всё из тарифа «Самостоятельный»</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-200 text-sm">Code review от Senior разработчика</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-200 text-sm">Еженедельные созвоны с группой</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-200 text-sm">Помощь с трудоустройством</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-200 text-sm">Разбор твоих проектов</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- С трудоустройством -->
+                <div class="glass-card rounded-3xl p-8 flex flex-col">
+                    <div class="mb-6">
+                        <h3 class="text-2xl font-bold text-white mb-2">С трудоустройством</h3>
+                        <p class="text-gray-400 text-sm">Карьерное сопровождение до оффера</p>
+                    </div>
+
+                    <ul class="space-y-4 flex-1">
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300 text-sm font-medium">Всё из тарифа «С наставником»</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300 text-sm">Персональные 1-на-1 созвоны</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300 text-sm">Индивидуальный план обучения</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300 text-sm">Приоритетная поддержка 24/7</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-brand shrink-0 mt-0.5" width="20"></iconify-icon>
+                            <span class="text-gray-300 text-sm">Карьерное сопровождение до оффера</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <p class="text-gray-500 text-sm">Точные цены и условия рассрочки будут объявлены при старте набора</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Дополнительные бонусы за быстрое решение -->
+    <section class="relative z-10 py-24 px-4 bg-white/[0.01]">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Еще 2 бонуса только для тех, кто принимает решение в течении 24х часов</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Бонус 9 -->
+                <div class="glass-card rounded-3xl p-8 border-brand/20">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center shrink-0">
+                            <iconify-icon icon="solar:code-2-bold" class="text-brand" width="24"></iconify-icon>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">«Экспресс-взлом LeetCode: 20 алгоритмов»</h3>
+                    </div>
+                    <p class="text-gray-300 mb-4">Система по самым важным алгоритмам и паттернам задач, которые реально встречаются на технических собеседованиях</p>
+                    <div class="space-y-2 text-sm text-gray-400">
+                        <p>✓ Ты не тратишь месяцы на хаотичное решение сотен задач без системы</p>
+                        <p>✓ Быстро осваиваешь ключевые типы и получаешь набор, который помогает на собеседовании</p>
+                        <p>✓ Уходит страх перед "алгоритмами и LeetCode"</p>
+                    </div>
+                </div>
+
+                <!-- Бонус 10 -->
+                <div class="glass-card rounded-3xl p-8 border-brand/20">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center shrink-0">
+                            <iconify-icon icon="solar:user-check-rounded-bold" class="text-brand" width="24"></iconify-icon>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">«Как стать зрелым программистом»</h3>
+                    </div>
+                    <p class="text-gray-300 mb-4">Разбор мышления, поведения и рабочих привычек, которые отличают незрелого новичка от программиста, которого уважают в команде</p>
+                    <div class="space-y-2 text-sm text-gray-400">
+                        <p>✓ Растёшь не только в технических навыках, но и в профессиональной зрелости</p>
+                        <p>✓ Меньше делаешь типичных детских ошибок, лучше понимаешь логику команды</p>
+                        <p>✓ Начинаешь чувствовать себя сильным специалистом, а не человеком на побегушках</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+    <!-- Слайд 23: Финальная трансформация -->
+    <section id="cta" class="relative z-10 py-24 px-4">
+        <div class="absolute inset-0 bg-gradient-to-t from-brand/5 to-transparent pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto text-center relative">
+            <div class="glass-card rounded-3xl p-8 md:p-12">
+                <p class="text-xl md:text-2xl text-gray-300 mb-4 leading-relaxed">
+                    <span class="text-gray-500">Было:</span> потолок, хаос, низкий доход, страх
+                </p>
+                <p class="text-xl md:text-2xl text-gray-300 mb-6 leading-relaxed">
+                    <span class="text-brand font-semibold">Стало:</span> навык, проекты, поддержка, понятный рынок, рост денег
+                </p>
+                <p class="text-lg text-gray-400">
+                    Это маршрут к более сильному доходу и нормальной профессиональной перспективе
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 py-8 text-center border-t border-white/5">
+        <p class="text-gray-600 text-xs font-mono">© 2026 MONTANIUM. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+</body></html>
