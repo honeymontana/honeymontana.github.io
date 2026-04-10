@@ -1716,4 +1716,67 @@
         </div>
     </footer>
 
+    <!-- Cookie Notice -->
+    <div id="cookie-notice" class="fixed bottom-0 left-0 right-0 z-50 p-3 md:p-4 transform translate-y-0 transition-transform duration-500" style="display: none;">
+        <div class="max-w-4xl mx-auto">
+            <div class="glass-card rounded-xl p-4 md:p-5 shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)] border-brand/20">
+                <div class="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+                    <div class="flex-1">
+                        <div class="flex items-start gap-2">
+                            <iconify-icon icon="solar:cookie-linear" class="text-brand shrink-0 mt-0.5" width="18"></iconify-icon>
+                            <div>
+                                <h3 class="text-white font-semibold text-base mb-1.5">Использование cookies</h3>
+                                <p class="text-gray-300 text-xs leading-relaxed">
+                                    На сайте используются cookies и другие аналитические сервисы.
+                                    Нажимая "Принимаю", вы соглашаетесь с нашей
+                                    <a href="https://course.honeymontana.com/privacy" target="_blank" class="text-brand hover:underline">политикой конфиденциальности</a>
+                                    и
+                                    <a href="https://course.honeymontana.com/policyopd" target="_blank" class="text-brand hover:underline">обработки персональных данных</a>.
+                                    <span class="text-gray-400">Вы можете отключить cookie в настройках своего браузера.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shrink-0">
+                        <button id="accept-cookies" class="bg-brand text-dark font-semibold px-6 py-2 rounded-lg text-sm hover:shadow-[0_0_20px_-5px_rgba(0,232,123,0.4)] transition-all duration-300 hover:-translate-y-0.5 whitespace-nowrap">
+                            Принимаю
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cookie Notice Logic
+        (function() {
+            const cookieNotice = document.getElementById('cookie-notice');
+            const acceptButton = document.getElementById('accept-cookies');
+
+            // Проверяем, принял ли пользователь cookies ранее
+            const cookiesAccepted = localStorage.getItem('cookiesAccepted');
+
+            if (!cookiesAccepted) {
+                // Показываем уведомление через небольшую задержку для плавности
+                setTimeout(function() {
+                    cookieNotice.style.display = 'block';
+                }, 1000);
+            }
+
+            // Обработчик клика на кнопку "Принимаю"
+            acceptButton.addEventListener('click', function() {
+                // Сохраняем согласие в localStorage
+                localStorage.setItem('cookiesAccepted', 'true');
+
+                // Анимация скрытия
+                cookieNotice.style.transform = 'translateY(100%)';
+
+                // Удаляем элемент из DOM после анимации
+                setTimeout(function() {
+                    cookieNotice.remove();
+                }, 500);
+            });
+        })();
+    </script>
+
 </body></html>
