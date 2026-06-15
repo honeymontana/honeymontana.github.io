@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Как быстрее всего вкатиться в IT в 2026 году и выйти на стабильные 200к+ в месяц</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #08090c;
+    --line: rgba(255,255,255,0.08);
+    --text: #f2f3f5;
+    --text-dim: #9ba0aa;
+    --accent: #ffd75e;
+    --accent-dim: rgba(255,215,94,0.12);
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  .wrap{
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding: 120px 0 80px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero__eyebrow{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(14px, 1.6vw, 17px);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 36px;
+  }
+
+  .hero__title{
+    font-size: clamp(48px, 9vw, 96px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0 0 36px;
+  }
+
+  .hero__title em{
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero__sub{
+    font-size: clamp(22px, 3.2vw, 30px);
+    font-weight: 400;
+    color: var(--text-dim);
+    max-width: 32ch;
+    margin: 0 0 48px;
+    line-height: 1.35;
+  }
+
+  /* ---------- BODY TEXT ---------- */
+  .section{
+    padding: 88px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .section--tight{ padding: 64px 0; }
+
+  .lede{
+    font-size: clamp(28px, 4.5vw, 44px);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin: 0 0 40px;
+  }
+
+  .body-text p{
+    font-size: clamp(20px, 2.6vw, 26px);
+    font-weight: 400;
+    color: var(--text-dim);
+    line-height: 1.5;
+    margin: 0 0 32px;
+  }
+
+  .body-text strong{
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  /* ---------- LESSONS ---------- */
+  .lessons__head{
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin: 0 0 56px;
+  }
+
+  .lesson{
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 28px;
+    padding: 48px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .lesson:first-of-type{ border-top: none; padding-top: 0; }
+
+  .lesson__num{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .lesson__title{
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 16px;
+    line-height: 1.2;
+  }
+
+  .lesson__text{
+    font-size: clamp(17px, 2vw, 20px);
+    font-weight: 400;
+    color: var(--text-dim);
+    line-height: 1.5;
+    margin: 0;
+    max-width: 60ch;
+  }
+
+  /* ---------- CLOSING ---------- */
+  .closing{
+    text-align: center;
+    padding: 96px 0 140px;
+  }
+
+  .closing__deadline{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(14px, 1.6vw, 17px);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 0 0 24px;
+  }
+
+  .closing__title{
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0 auto 56px;
+    max-width: 18ch;
+  }
+
+  /* ---------- CTA BUTTON ---------- */
+  .cta{
+    display: inline-block;
+    background: var(--accent);
+    color: #161200;
+    font-weight: 700;
+    font-size: clamp(18px, 2.4vw, 24px);
+    text-decoration: none;
+    padding: 22px 48px;
+    border-radius: 100px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 0 0 0 rgba(255,215,94,0.4);
+  }
+
+  .cta:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px -8px rgba(255,215,94,0.55);
+  }
+
+  @media (max-width: 600px){
+    .hero{ padding: 80px 0 56px; }
+    .section{ padding: 64px 0; }
+    .lesson{ grid-template-columns: 56px 1fr; gap: 18px; padding: 36px 0; }
+    .closing{ padding: 72px 0 96px; }
+  }
+</style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="wrap">
+      <p class="hero__eyebrow">бесплатный мини-курс · 4 урока</p>
+      <h1 class="hero__title">
+        Вкатись в&nbsp;<em>IT</em> в&nbsp;2026 и&nbsp;выйди на&nbsp;<em>200к+</em>
+      </h1>
+      <p class="hero__sub">
+        Без увольнения, без заучивания теории и без многомесячного просиживания в онлайн-школах.
+      </p>
+      <a href="https://telegram.me/montana_vkat_bot?start=lllwkx" class="cta">Забрать мини-курс</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap body-text">
+      <p class="lede">
+        Если ты до сих пор думаешь, что для перехода в IT нужно учиться годами, бросать работу и иметь математический склад ума — ты застрял в стереотипах пятилетней давности.
+      </p>
+      <p>
+        Прямо сейчас на рынке возникло короткое окно возможностей: пока выпускники стандартных курсов месяцами сидят даже без приглашений на собеседования из-за одинаковых резюме, <strong>компании буквально охотятся за людьми с одним конкретным гибридным навыком и готовы платить им на 20–30% выше рынка прямо на старте</strong>.
+      </p>
+      <p>
+        Чтобы ты не тратил время на бесполезные действия, я записал бесплатный мини-курс, где на сухих цифрах и реальных примерах показал, как обойти 700 конкурентов на одну вакансию и собрать профиль, который рекрутер выцепит за 3 секунды.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="lessons__head">Что внутри</h2>
+
+      <div class="lesson">
+        <div class="lesson__num">01</div>
+        <div>
+          <h3 class="lesson__title">Ситуация на рынке IT в 2026</h3>
+          <p class="lesson__text">
+            Разберём, почему 80% новичков сливаются в первые три месяца и какая скрытая деталь в резюме заставляет HR отправлять отклик в корзину ровно за 7,5 секунд. Поговорим о том, почему именно сейчас открылось последнее окно возможностей и как попасть в первую волну востребованных спецов.
+          </p>
+        </div>
+      </div>
+
+      <div class="lesson">
+        <div class="lesson__num">02</div>
+        <div>
+          <h3 class="lesson__title">Стек-мультипликатор</h3>
+          <p class="lesson__text">
+            Ты узнаешь, почему выбор между популярными языками — это ловушка, которая лишает тебя денег. Покажу закрытые данные найма и объясню, какие 6 слоёв различимости были в резюме тех 3 человек из 700, которых реально пригласили на собеседование.
+          </p>
+        </div>
+      </div>
+
+      <div class="lesson">
+        <div class="lesson__num">03</div>
+        <div>
+          <h3 class="lesson__title">Пошаговый план: 5 месяцев — 5 проектов</h3>
+          <p class="lesson__text">
+            Чёткий помесячный маршрут. Расскажу, какие конкретно проекты должны быть в твоём GitHub, чтобы они доказывали пользу для бизнеса. И главное — как уделять учёбе всего 1,5–2 часа по вечерам, не принося в жертву семью, жизнь и основную работу.
+          </p>
+        </div>
+      </div>
+
+      <div class="lesson">
+        <div class="lesson__num">04</div>
+        <div>
+          <h3 class="lesson__title">Разбор резюме глазами HR</h3>
+          <p class="lesson__text">
+            Заглянем за кулисы найма. Разберу три реальные анкеты и покажу, как рекрутеры моментально вычисляют выпускников массовых онлайн-школ — и почему бренд курса часто работает против тебя. Дам чек-лист из 10 пунктов, без которых даже не стоит нажимать кнопку «откликнуться».
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap body-text">
+      <p>
+        По сути, эти 4 урока — всё, что тебе нужно, чтобы перестать топтаться на месте, обойти систему найма и зайти в IT на совершенно других условиях, даже если ты начинаешь с полного нуля.
+      </p>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="wrap">
+      <p class="closing__deadline">уроки будут доступны только 48 часов</p>
+      <p class="closing__title">Жми на кнопку и забирай мини-курс прямо сейчас</p>
+      <a href="https://telegram.me/montana_vkat_bot?start=lllwkx" class="cta">Начать обучение</a>
+    </div>
+  </section>
+
+</body>
+</html>
