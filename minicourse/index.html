@@ -288,8 +288,17 @@
 
   <script>
     if (window.location.href.toLowerCase().includes('zargo')) {
+      const checkoutUrl = new URL('https://course.honeymontana.com/b/105931/102704');
+      const pageParams = new URLSearchParams(window.location.search);
+
+      pageParams.forEach((value, name) => {
+        if (name.toLowerCase().startsWith('utm_')) {
+          checkoutUrl.searchParams.append(name, value);
+        }
+      });
+
       document.querySelectorAll('.cta').forEach((button) => {
-        button.href = 'https://course.honeymontana.com/b/105931/102704';
+        button.href = checkoutUrl.toString();
       });
     }
   </script>
