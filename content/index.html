@@ -171,6 +171,10 @@
       line-height: 1.45;
     }
 
+    .display-title + .hero-lead {
+      margin-top: 28px;
+    }
+
     .hero-note {
       margin: 0;
       font-size: 23px;
@@ -257,6 +261,10 @@
 
     .section-head {
       margin-bottom: 38px;
+    }
+
+    .section-head:last-child {
+      margin-bottom: 0;
     }
 
     .section-head.compact {
@@ -364,6 +372,10 @@
       line-height: 1.6;
     }
 
+    .copy-stack > .route-card {
+      margin: 28px 0 0;
+    }
+
     .disclaimer {
       color: var(--muted);
     }
@@ -462,34 +474,35 @@
     }
 
     .module summary,
-    .faq summary {
+    .faq h3 {
+      margin: 0;
       padding: 20px 0;
       display: flex;
       align-items: center;
       gap: 12px;
-      cursor: pointer;
-      list-style: none;
       color: var(--text);
       font-size: 23px;
       font-weight: 750;
       line-height: 1.35;
     }
 
-    .module summary::-webkit-details-marker,
-    .faq summary::-webkit-details-marker {
+    .module summary {
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .module summary::-webkit-details-marker {
       display: none;
     }
 
-    .module summary::after,
-    .faq summary::after {
+    .module summary::after {
       content: "+";
       margin-left: auto;
       color: var(--accent);
       font-size: 24px;
     }
 
-    .module[open] summary::after,
-    .faq[open] summary::after {
+    .module[open] summary::after {
       content: "−";
     }
 
@@ -633,6 +646,11 @@
       border-top: 1px solid var(--line);
     }
 
+    .path-card.accent-path {
+      padding-top: 30px;
+      border-top: 2px solid var(--accent);
+    }
+
     .path-num {
       color: var(--accent);
       font-size: 16px;
@@ -653,6 +671,10 @@
     .faq p {
       margin: 0;
       padding: 0 0 22px;
+    }
+
+    .faq-layout > header {
+      margin-bottom: 38px;
     }
 
     .final-cta .container {
@@ -687,6 +709,18 @@
       border: 0;
     }
 
+    .form-load-error {
+      margin: 24px 0 0;
+      color: var(--accent);
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .form-load-error[hidden] {
+      display: none;
+    }
+
     .final-note {
       margin: 14px 0 0;
       color: var(--muted);
@@ -694,23 +728,33 @@
     }
 
     @media (max-width: 700px) {
+      :root {
+        --mobile-section-gap: 72px;
+        --mobile-block-gap: 32px;
+      }
+
       body {
         font-size: 20px;
       }
 
+      main {
+        padding: 56px 0;
+      }
+
       .container,
       .final-cta .container {
-        width: min(var(--content), calc(100% - 28px));
+        width: min(var(--content), calc(100% - 40px));
       }
 
-      .hero,
-      .section,
-      .final-cta {
-        padding: 62px 0;
+      main > .hero,
+      main > .section,
+      main > .final-cta {
+        margin: 0;
+        padding: 0;
       }
 
-      .hero {
-        padding-top: 68px;
+      main > section + section {
+        margin-top: var(--mobile-section-gap);
       }
 
       .display-title {
@@ -726,7 +770,48 @@
         font-size: 23px;
       }
 
+      .display-title + .hero-lead {
+        margin-top: 22px;
+      }
+
+      .eyebrow {
+        margin-bottom: 12px;
+      }
+
+      .section-head {
+        margin-bottom: var(--mobile-block-gap);
+      }
+
+      .section-head:last-child {
+        margin-bottom: 0;
+      }
+
+      .section-head.compact {
+        margin-top: 52px;
+        margin-bottom: 24px;
+      }
+
+      .section-copy {
+        margin-top: 18px;
+      }
+
+      .hero-benefits,
+      .not-needed,
+      .teach-list,
+      .audiences,
+      .experience-list,
+      .course-includes {
+        margin-top: 24px;
+      }
+
+      .format-wall,
+      .steps-grid,
+      .timeline-days {
+        margin-block: 24px;
+      }
+
       .hero-actions {
+        margin-top: var(--mobile-block-gap);
         display: grid;
         justify-items: center;
       }
@@ -745,7 +830,46 @@
       .author-card,
       .price-card,
       .path-card {
-        margin-top: 42px;
+        margin-top: var(--mobile-block-gap);
+      }
+
+      .program-layout > aside {
+        margin-bottom: var(--mobile-block-gap);
+      }
+
+      .price-card,
+      .path-card,
+      .path-card.accent-path {
+        padding-top: 24px;
+      }
+
+      .choice-note {
+        margin-top: var(--mobile-block-gap);
+      }
+
+      .faq-layout > header {
+        margin-bottom: var(--mobile-block-gap);
+      }
+
+      .module summary,
+      .faq h3 {
+        padding-block: 18px;
+      }
+
+      .faq p {
+        padding-bottom: 20px;
+      }
+
+      .course-form-widget {
+        margin-top: var(--mobile-block-gap);
+      }
+
+      .form-load-error {
+        margin-top: 12px;
+      }
+
+      .final-note {
+        margin-top: 16px;
       }
 
       .lessons,
@@ -1107,38 +1231,38 @@
         </header>
 
         <div class="faq-list">
-          <details class="faq">
-            <summary>Я вообще не умею монтировать. Мне подойдёт?</summary>
+          <div class="faq">
+            <h3>Я вообще не умею монтировать. Мне подойдёт?</h3>
             <p>Да. Курс начинается с базовых вещей: интерфейса CapCut, нарезки, удаления пауз и простых склеек.</p>
-          </details>
-          <details class="faq">
-            <summary>Обязательно ли снимать своё лицо?</summary>
+          </div>
+          <div class="faq">
+            <h3>Обязательно ли снимать своё лицо?</h3>
             <p>Нет. Ты сможешь использовать нарезки, скринкасты, обзоры, озвучку и другие форматы без говорящей головы.</p>
-          </details>
-          <details class="faq">
-            <summary>Нужен ли компьютер?</summary>
+          </div>
+          <div class="faq">
+            <h3>Нужен ли компьютер?</h3>
             <p>Для старта достаточно телефона. Базовый монтаж можно делать в мобильной версии CapCut.</p>
-          </details>
-          <details class="faq">
-            <summary>Мне придётся самостоятельно искать реферальные программы?</summary>
+          </div>
+          <div class="faq">
+            <h3>Мне придётся самостоятельно искать реферальные программы?</h3>
             <p>Нет. Внутри курса я дам готовые предложения и объясню, какие ролики можно создавать для их продвижения.</p>
-          </details>
-          <details class="faq">
-            <summary>Нужно ли искать клиентов?</summary>
+          </div>
+          <div class="faq">
+            <h3>Нужно ли искать клиентов?</h3>
             <p>Для работы с готовой реферальной моделью искать клиентов самостоятельно не нужно. Твоя задача — создавать видео и привлекать заинтересованных зрителей.</p>
-          </details>
-          <details class="faq">
-            <summary>Можно ли потом зарабатывать монтажом?</summary>
+          </div>
+          <div class="faq">
+            <h3>Можно ли потом зарабатывать монтажом?</h3>
             <p>Да. Навык создания коротких видео можно использовать для работы с блогерами, экспертами и компаниями.</p>
-          </details>
-          <details class="faq">
-            <summary>Можно ли использовать чужие видео?</summary>
+          </div>
+          <div class="faq">
+            <h3>Можно ли использовать чужие видео?</h3>
             <p>Только с разрешения правообладателя, подходящей лицензией или другим законным основанием. Простое копирование и перезагрузка чужого контента могут нарушать авторские права и правила площадок.</p>
-          </details>
-          <details class="faq">
-            <summary>Сколько я смогу заработать?</summary>
+          </div>
+          <div class="faq">
+            <h3>Сколько я смогу заработать?</h3>
             <p>Доход зависит от количества и качества роликов, выбранной темы, аудитории и регулярности работы. Курс даёт навык и готовую модель, но не гарантирует конкретную сумму.</p>
-          </details>
+          </div>
         </div>
       </div>
     </section>
@@ -1149,12 +1273,76 @@
         <h2 class="final-title">Начни с первого <span class="accent">короткого видео</span></h2>
         <p class="final-copy">Я покажу тебе, как создавать ролики, привлекать с их помощью людей и использовать этот навык для заработка.</p>
         <div class="course-form-widget" id="course-form">
-          <script ao-number="117859" ao-widget-id="fW7wWP2VcUGgcQnEo7125w" ao-domain="course.honeymontana.com" src="https://idx.xl.ru/site/widget/widget.min.js"></script>
+          <script async ao-number="117859" ao-widget-id="fW7wWP2VcUGgcQnEo7125w" ao-domain="course.honeymontana.com" src="https://idx.xl.ru/site/widget/widget.min.js"></script>
         </div>
+        <p class="form-load-error" id="form-load-error" role="status" aria-live="polite" hidden><em>Включите VPN</em></p>
         <p class="final-note">Без опыта, собственной аудитории и дорогой техники.</p>
       </div>
     </section>
   </main>
 
+  <script>
+    (function () {
+      const formHost = document.getElementById("course-form");
+      const loadError = document.getElementById("form-load-error");
+
+      if (!formHost || !loadError) return;
+
+      let ready = false;
+      let timer;
+
+      function markReady() {
+        if (ready) return;
+        ready = true;
+        window.clearTimeout(timer);
+        loadError.hidden = true;
+        observer.disconnect();
+        window.removeEventListener("message", handleMessage);
+      }
+
+      function inspectIframe() {
+        const iframe = formHost.querySelector("iframe");
+
+        if (!iframe) return;
+
+        iframe.title = "Форма записи на курс";
+
+        const iframeHeight = Number.parseFloat(iframe.style.height) || 0;
+        const hostHeight = Number.parseFloat(formHost.style.height) || 0;
+
+        if (iframeHeight > 20 || hostHeight > 20) {
+          markReady();
+        }
+      }
+
+      function handleMessage(event) {
+        const iframe = formHost.querySelector("iframe");
+
+        if (iframe && event.source === iframe.contentWindow) {
+          markReady();
+        }
+      }
+
+      const observer = new MutationObserver(inspectIframe);
+
+      window.addEventListener("message", handleMessage);
+      observer.observe(formHost, {
+        childList: true,
+        attributes: true,
+        subtree: true,
+        attributeFilter: ["style"]
+      });
+
+      timer = window.setTimeout(function () {
+        inspectIframe();
+
+        if (!ready) {
+          loadError.hidden = false;
+        }
+      }, 10000);
+
+      inspectIframe();
+    })();
+  </script>
 </body>
 </html>
