@@ -727,6 +727,67 @@
       font-size: 18px;
     }
 
+    .legal-footer {
+      padding: 48px 20px;
+      border-top: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .legal-footer-inner {
+      width: min(var(--content), 100%);
+      margin-inline: auto;
+      display: grid;
+      justify-items: center;
+      gap: 24px;
+    }
+
+    .legal-footer p {
+      margin: 0;
+    }
+
+    .legal-footer-email {
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .legal-footer-details,
+    .legal-footer-copyright {
+      color: #727272;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .legal-footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 24px;
+    }
+
+    .legal-footer-links a {
+      color: #8b8b8b;
+      font-size: 14px;
+      line-height: 1.5;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .legal-footer-email:hover,
+    .legal-footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .legal-footer-copyright {
+      width: 100%;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
     @media (max-width: 700px) {
       :root {
         --mobile-section-gap: 72px;
@@ -870,6 +931,20 @@
 
       .final-note {
         margin-top: 16px;
+      }
+
+      .legal-footer {
+        padding: 40px 20px;
+      }
+
+      .legal-footer-inner {
+        gap: 20px;
+      }
+
+      .legal-footer-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
       }
 
       .lessons,
@@ -1280,6 +1355,25 @@
       </div>
     </section>
   </main>
+
+  <footer class="legal-footer" aria-label="Юридическая информация">
+    <div class="legal-footer-inner">
+      <a class="legal-footer-email" href="mailto:info@honeymontana.com">info@honeymontana.com</a>
+
+      <div class="legal-footer-details">
+        <p>ИП Мирошниченко Анатолий Михайлович</p>
+        <p>ИНН: 784807055750 | ОГРНИП: 326784700075852</p>
+      </div>
+
+      <nav class="legal-footer-links" aria-label="Правовые документы">
+        <a href="https://course.honeymontana.com/privacy" target="_blank" rel="noopener noreferrer">Политика конфиденциальности</a>
+        <a href="https://course.honeymontana.com/policyopd" target="_blank" rel="noopener noreferrer">Политика в отношении обработки персональных данных</a>
+        <a href="https://course.honeymontana.com/oferta_usl" target="_blank" rel="noopener noreferrer">Публичная оферта</a>
+      </nav>
+
+      <p class="legal-footer-copyright">© 2026 ДЕНЬГИ НА КОРОТКИХ ВИДЕО. ALL RIGHTS RESERVED.</p>
+    </div>
+  </footer>
 
   <script>
     (function () {
