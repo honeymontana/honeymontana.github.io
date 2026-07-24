@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08090c">
+  <title>Деньги на коротких видео — практический курс Montana</title>
+  <meta name="description" content="Практический курс Montana: создание коротких видео, монтаж в CapCut, публикация, аналитика и готовая реферальная связка.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Деньги на коротких видео">
+  <meta property="og:description" content="Практический курс Montana для тех, кто хочет начать зарабатывать первые деньги.">
+  <meta property="og:url" content="https://honeymontana.com/content/">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #000;
+      --text: #f5f5f5;
+      --muted: #a6a6a6;
+      --accent: #ffd75e;
+      --line: #252525;
+      --content: 900px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      font-family: inherit;
+    }
+
+    html {
+      background: var(--bg);
+      overflow-y: auto !important;
+    }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      overflow-x: hidden;
+      overflow-y: auto !important;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      font-size: 21px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      overflow-wrap: anywhere;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -.035em;
+      text-wrap: balance;
+    }
+
+    ul,
+    ol {
+      margin: 0;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #000;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .container {
+      width: min(var(--content), calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    .hero,
+    .section,
+    .final-cta {
+      padding: 88px 0;
+      border-top: 0;
+      background: var(--bg);
+      color: var(--text);
+      text-align: left;
+    }
+
+    .hero {
+      padding-top: 96px;
+      border-top: 0;
+    }
+
+    .section-yellow,
+    .section-dark,
+    .section-raised {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--accent);
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.4;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .section-yellow .eyebrow,
+    .section-yellow .accent {
+      color: var(--accent);
+    }
+
+    .display-title {
+      max-width: 1000px;
+      margin: 0;
+      font-size: clamp(68px, 9vw, 120px);
+    }
+
+    .hero-title-line {
+      display: inline;
+      white-space: normal;
+    }
+
+    .section-title,
+    .final-title {
+      max-width: 900px;
+      margin: 0;
+      font-size: clamp(48px, 6vw, 72px);
+    }
+
+    .accent {
+      color: var(--accent);
+    }
+
+    .hero-grid,
+    .split,
+    .showcase-grid,
+    .skill-layout,
+    .program-layout,
+    .outcomes-grid,
+    .author-price,
+    .paths-grid,
+    .faq-layout {
+      display: block;
+    }
+
+    .hero-grid {
+      margin-top: 42px;
+    }
+
+    .hero-lead {
+      max-width: 820px;
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: clamp(25px, 2.8vw, 34px);
+      line-height: 1.45;
+    }
+
+    .hero-note {
+      margin: 0;
+      font-size: 23px;
+      font-weight: 750;
+    }
+
+    .hero-benefits,
+    .not-needed,
+    .teach-list,
+    .audiences,
+    .experience-list,
+    .course-includes {
+      margin: 28px 0 0;
+      padding-left: 1.25em;
+      display: block;
+      list-style: disc;
+    }
+
+    .hero-benefits li,
+    .not-needed li,
+    .teach-list li,
+    .audiences li,
+    .experience-list li,
+    .course-includes li {
+      min-height: 0;
+      margin: 8px 0;
+      padding: 0;
+      display: list-item;
+      border: 0;
+      border-radius: 0;
+      background: none;
+      color: var(--text);
+      font-size: 21px;
+    }
+
+    .hero-benefits li::before,
+    .not-needed li::before,
+    .teach-list li::before,
+    .audiences li::before,
+    .experience-list li::before,
+    .course-includes li::before {
+      content: none;
+    }
+
+    .hero-actions {
+      margin-top: 34px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .btn {
+      min-height: 52px;
+      padding: 14px 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #090909;
+      font-size: 19px;
+      font-weight: 800;
+      line-height: 1.25;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background: #ffe58c;
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .section-head {
+      margin-bottom: 38px;
+    }
+
+    .section-head.compact {
+      margin-top: 64px;
+      margin-bottom: 24px;
+    }
+
+    .section-copy {
+      max-width: 820px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 24px;
+      line-height: 1.55;
+    }
+
+    .section-yellow .section-copy {
+      color: var(--muted);
+    }
+
+    .statement {
+      margin: 0 0 22px;
+      font-size: clamp(34px, 4vw, 50px);
+    }
+
+    .copy-stack {
+      margin-top: 48px;
+      display: block;
+    }
+
+    .copy-stack > p,
+    .author-card p,
+    .path-card p,
+    .experience-card > p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 21px;
+      line-height: 1.65;
+    }
+
+    .format-wall,
+    .steps-grid,
+    .timeline-days {
+      margin: 24px 0;
+      padding-left: 1.5em;
+      display: block;
+      list-style: decimal;
+      counter-reset: none;
+    }
+
+    .format-wall li,
+    .steps-grid li,
+    .timeline-days li {
+      min-height: 0;
+      margin: 10px 0;
+      padding: 0 0 0 4px;
+      display: list-item;
+      border: 0;
+      border-radius: 0;
+      background: none;
+      color: var(--text);
+      font-size: 21px;
+      counter-increment: none;
+    }
+
+    .format-wall li::before,
+    .steps-grid li::before {
+      content: none;
+    }
+
+    .timeline-days strong {
+      color: var(--text);
+      font-size: 21px;
+    }
+
+    .timeline-days p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 20px;
+    }
+
+    .route-card,
+    .disclaimer,
+    .program-stat,
+    .program-note,
+    .income-card,
+    .module-result {
+      margin: 28px 0 0;
+      padding: 4px 0 4px 20px;
+      border: 0;
+      border-left: 3px solid var(--accent);
+      border-radius: 0;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .route-card strong,
+    .route-card span {
+      display: block;
+    }
+
+    .route-card span {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.6;
+    }
+
+    .disclaimer {
+      color: var(--muted);
+    }
+
+    .panel,
+    .skill-main,
+    .yellow-quote,
+    .experience-card,
+    .author-card,
+    .price-card,
+    .path-card {
+      min-width: 0;
+      margin-top: 52px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .panel h3,
+    .yellow-quote h3,
+    .experience-card h3,
+    .author-card h3,
+    .price-card h3,
+    .path-card h3 {
+      margin: 0 0 20px;
+      color: var(--text);
+      font-size: clamp(32px, 4vw, 44px);
+    }
+
+    .referral-panel p,
+    .yellow-quote p,
+    .price-card .price-desc,
+    .accent-path p {
+      color: var(--muted);
+    }
+
+    .yellow-quote {
+      padding-left: 20px;
+      border-left: 3px solid var(--accent);
+    }
+
+    .yellow-quote h3 {
+      color: var(--accent);
+    }
+
+    .strong-copy {
+      color: var(--text) !important;
+      font-weight: 750;
+    }
+
+    .program-layout > aside {
+      margin-bottom: 44px;
+    }
+
+    .program-stat {
+      margin-top: 0;
+    }
+
+    .program-stat strong {
+      display: block;
+      color: var(--accent);
+      font-size: 64px;
+      line-height: 1;
+    }
+
+    .program-stat span {
+      display: block;
+      margin-top: 8px;
+      font-weight: 700;
+    }
+
+    .program-note {
+      border-left-color: var(--line);
+      color: var(--muted);
+    }
+
+    .modules,
+    .faq-list {
+      display: block;
+    }
+
+    .module,
+    .faq {
+      overflow: visible;
+      border: 0;
+      border-top: 1px solid var(--line);
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .module:last-child,
+    .faq:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .module summary,
+    .faq summary {
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      list-style: none;
+      color: var(--text);
+      font-size: 23px;
+      font-weight: 750;
+      line-height: 1.35;
+    }
+
+    .module summary::-webkit-details-marker,
+    .faq summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .module summary::after,
+    .faq summary::after {
+      content: "+";
+      margin-left: auto;
+      color: var(--accent);
+      font-size: 24px;
+    }
+
+    .module[open] summary::after,
+    .faq[open] summary::after {
+      content: "−";
+    }
+
+    .module-num {
+      color: var(--accent);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .module-title {
+      font-size: inherit;
+      font-weight: inherit;
+    }
+
+    .lessons {
+      margin: 0;
+      padding: 0 0 8px 34px;
+      list-style: none;
+    }
+
+    .lessons li {
+      padding: 16px 0;
+      display: block;
+      border-top: 1px solid var(--line);
+    }
+
+    .lessons strong,
+    .lessons span {
+      display: block;
+      font-size: 20px;
+    }
+
+    .lessons span {
+      margin-top: 5px;
+      color: var(--muted);
+    }
+
+    .module-result {
+      margin: 8px 0 24px 34px;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .outcome-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .outcome-list li {
+      min-height: 0;
+      padding: 13px 0;
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      align-items: start;
+      gap: 10px;
+      border: 0;
+      border-top: 1px solid var(--line);
+      color: var(--text);
+      font-size: 21px;
+    }
+
+    .outcome-list li:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .outcome-list b {
+      width: auto;
+      height: auto;
+      display: block;
+      background: transparent;
+      color: var(--accent);
+      font-size: 18px;
+    }
+
+    .income-card {
+      margin-top: 34px;
+    }
+
+    .income-card small {
+      display: block;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .income-card strong {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.05;
+    }
+
+    .pace-note,
+    .price-note,
+    .choice-note p,
+    .faq p {
+      color: var(--muted);
+    }
+
+    .pace-note {
+      max-width: 760px;
+      margin: 24px 0 0;
+    }
+
+    .price-card,
+    .accent-path {
+      padding: 30px 0 0;
+      border-top: 2px solid var(--accent);
+    }
+
+    .price-eyebrow {
+      margin-top: 26px;
+      color: var(--accent);
+    }
+
+    .price-value {
+      margin-top: 28px;
+      color: var(--accent);
+      font-size: clamp(40px, 6vw, 58px);
+      font-weight: 850;
+      line-height: 1;
+    }
+
+    .price-card .btn,
+    .path-card .btn {
+      width: auto;
+      margin: 24px auto 0;
+      background: var(--accent);
+      color: #090909;
+    }
+
+    .price-note {
+      margin: 16px 0 0;
+    }
+
+    .path-card {
+      padding-top: 34px;
+      border-top: 1px solid var(--line);
+    }
+
+    .path-num {
+      color: var(--accent);
+      font-size: 16px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .choice-note {
+      max-width: 760px;
+      margin: 44px 0 0;
+      text-align: left;
+    }
+
+    .choice-note p {
+      margin: 0 0 12px;
+    }
+
+    .faq p {
+      margin: 0;
+      padding: 0 0 22px;
+    }
+
+    .final-cta .container {
+      width: min(var(--content), calc(100% - 40px));
+    }
+
+    .final-copy {
+      max-width: 760px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 24px;
+    }
+
+    .final-cta .btn {
+      width: fit-content;
+      margin: 30px auto 0;
+      display: flex;
+    }
+
+    .course-form-widget {
+      width: 100%;
+      min-height: 1px;
+      margin: 36px auto 0;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .course-form-widget iframe {
+      width: 100%;
+      max-width: 100%;
+      display: block;
+      border: 0;
+    }
+
+    .final-note {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        font-size: 20px;
+      }
+
+      .container,
+      .final-cta .container {
+        width: min(var(--content), calc(100% - 28px));
+      }
+
+      .hero,
+      .section,
+      .final-cta {
+        padding: 62px 0;
+      }
+
+      .hero {
+        padding-top: 68px;
+      }
+
+      .display-title {
+        font-size: clamp(54px, 14vw, 76px);
+      }
+
+      .section-title,
+      .final-title {
+        font-size: clamp(40px, 10.5vw, 58px);
+      }
+
+      .hero-lead {
+        font-size: 23px;
+      }
+
+      .hero-actions {
+        display: grid;
+        justify-items: center;
+      }
+
+      .btn,
+      .price-card .btn,
+      .path-card .btn {
+        width: min(100%, 420px);
+      }
+
+      .copy-stack,
+      .panel,
+      .skill-main,
+      .yellow-quote,
+      .experience-card,
+      .author-card,
+      .price-card,
+      .path-card {
+        margin-top: 42px;
+      }
+
+      .lessons,
+      .module-result {
+        margin-left: 0;
+        padding-left: 0;
+      }
+
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero" id="top">
+      <div class="container">
+        <p class="eyebrow">Практический курс Montana для тех, кто хочет начать зарабатывать первые деньги</p>
+        <h1 class="display-title"><span class="hero-title-line">Деньги на <span class="accent">коротких</span></span> <span class="accent">видео</span></h1>
+
+        <p class="hero-lead">Я научу тебя с нуля создавать короткие ролики, привлекать с их помощью людей в готовые реферальные предложения, получать выплаты за целевые действия и зарабатывать от 50-200к в месяц</p>
+        <p class="hero-note">Даже если ты никогда не снимал видео и впервые открываешь CapCut.</p>
+        <ul class="hero-benefits" aria-label="Короткие преимущества">
+          <li>Для старта достаточно телефона</li>
+          <li>Не нужен опыт в монтаже</li>
+          <li>Не нужна собственная аудитория</li>
+          <li>Не нужно придумывать, что продвигать</li>
+          <li>Готовую реферальную связку ты получишь внутри курса</li>
+        </ul>
+        <div class="hero-actions">
+          <a class="btn" href="#course-form">Получить доступ к курсу</a>
+          <a class="btn btn-secondary" href="#program">Посмотреть программу</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-yellow" id="blogger">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">Короткие видео — это не только способ набрать подписчиков</p>
+          <h2 class="section-title">Тебе не нужно становиться блогером</h2>
+          <p class="section-copy">С помощью Shorts, Reels и TikTok бизнесы, сервисы и онлайн-проекты каждый день привлекают новых клиентов.</p>
+        </header>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="not-needed-title">
+      <div class="container split">
+        <div>
+          <h2 class="eyebrow" id="not-needed-title">Чтобы участвовать в этом процессе, необязательно:</h2>
+          <ul class="not-needed">
+            <li>показывать лицо</li>
+            <li>иметь собственный блог</li>
+            <li>покупать дорогую камеру</li>
+            <li>быть профессиональным монтажёром</li>
+            <li>придумывать уникальные идеи с нуля</li>
+            <li>несколько лет учиться созданию контента</li>
+          </ul>
+        </div>
+
+        <div class="copy-stack">
+          <h3 class="statement">Можно создавать простые форматы:</h3>
+          <ol class="format-wall" aria-label="Форматы видео">
+            <li>нарезки</li>
+            <li>обзоры</li>
+            <li>скринкасты</li>
+            <li>туториалы</li>
+            <li>ролики с озвучкой</li>
+          </ol>
+          <p>Даже обычные нарезки любимых фильмов и сериалов подойдут под этот способ.</p>
+          <p>Главное — понимать, какое видео сделать, как удержать внимание зрителя и куда направить его после просмотра.</p>
+          <p class="route-card">
+            <strong>Именно этому я буду учить тебя на курсе:</strong>
+            <span>найти идею → собрать ролик → опубликовать → получить просмотры → привести людей в нужное предложение.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="model">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">С этой моделью справится даже полный новичок</p>
+          <h2 class="section-title">Как короткие видео превращаются в <span class="accent">деньги</span></h2>
+          <p class="section-copy">Тебе не нужно создавать собственный продукт, искать рекламодателей или продавать что-то зрителям самостоятельно.</p>
+        </header>
+
+        <p class="eyebrow">Механика выглядит так:</p>
+        <ol class="steps-grid">
+          <li>Ты выбираешь тему для ролика</li>
+          <li>Создаёшь короткое видео по понятной структуре или просто нарезаешь чужое</li>
+          <li>Публикуешь его в Shorts, Reels, TikTok или на другой площадке</li>
+          <li>Заинтересованные зрители переходят по твоей ссылке</li>
+          <li>Выполняют нужное действие</li>
+          <li>Ты получаешь вознаграждение</li>
+        </ol>
+
+        <div class="showcase-grid">
+          <section class="panel">
+            <h3>На курсе я покажу:</h3>
+            <ul class="teach-list">
+              <li>какие ролики создавать</li>
+              <li>где находить идеи</li>
+              <li>как выбирать темы</li>
+              <li>как делать сильное начало</li>
+              <li>как удерживать внимание</li>
+              <li>куда направлять зрителя</li>
+              <li>как оформлять ссылку</li>
+              <li>как отслеживать переходы</li>
+              <li>что делать, если первые видео не дали результата</li>
+              <li>как увеличивать количество роликов после удачного теста</li>
+            </ul>
+          </section>
+
+          <aside class="panel referral-panel">
+            <h3>Тебе не придётся самостоятельно искать, что продвигать</h3>
+            <p>Внутри курса я дам готовые реферальные предложения и объясню, какие видео под них создавать.</p>
+            <p>Тебе не нужно будет договариваться с компаниями, искать клиентов или разрабатывать собственный продукт.</p>
+            <p>Твоя основная задача — создавать и тестировать короткие видео по готовой механике.</p>
+          </aside>
+        </div>
+
+        <p class="disclaimer">При этом я не буду обещать тебе гарантированный доход. Результат будет зависеть от качества роликов, количества тестов, выбранной темы и того, насколько последовательно ты будешь работать.</p>
+      </div>
+    </section>
+
+    <section class="section section-raised" id="skill">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">Даже если ты не захочешь работать с рефералками, ты всё равно получишь востребованный навык</p>
+          <h2 class="section-title">Навык, который останется у тебя после курса</h2>
+          <p class="section-copy">Во время курса ты научишься создавать и монтировать короткие видео.</p>
+        </header>
+
+        <div class="skill-layout">
+          <section class="skill-main">
+            <h3 class="statement">Этот навык нужен:</h3>
+            <ul class="audiences">
+              <li>блогерам</li>
+              <li>экспертам</li>
+              <li>онлайн-школам</li>
+              <li>компаниям</li>
+              <li>предпринимателям</li>
+              <li>YouTube-каналам</li>
+              <li>Telegram-проектам</li>
+              <li>авторам личных брендов</li>
+            </ul>
+            <p>Им постоянно требуются Shorts, Reels, TikTok, нарезки длинных выпусков и рекламные ролики.</p>
+            <p>После курса ты сможешь использовать монтаж не только для собственной реферальной связки, но и как отдельную услугу.</p>
+          </section>
+
+          <aside class="yellow-quote">
+            <h3>И учиться этому ты будешь у практикующего видеоблогера</h3>
+            <p>Я не пересказываю теорию из чужих курсов.</p>
+          </aside>
+
+          <section class="experience-card">
+            <p>Я сам годами создаю видео, работаю с контентом и построил на этом большой YouTube-канал.</p>
+            <h3>Я понимаю:</h3>
+            <ul class="experience-list">
+              <li>почему одни видео открывают, а другие пролистывают</li>
+              <li>как удерживать внимание зрителя</li>
+              <li>где ролик теряет темп</li>
+              <li>какие фрагменты нужно убрать</li>
+              <li>как доносить мысль без воды</li>
+              <li>как использовать контент для развития аудитории и продвижения проектов</li>
+            </ul>
+            <p class="strong-copy">Поэтому на курсе ты будешь изучать не просто кнопки в CapCut. Ты будешь учиться создавать видео, которые выполняют конкретную задачу.</p>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="program">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">17 уроков от первого ролика до готовой реферальной связки</p>
+          <h2 class="section-title">Программа курса</h2>
+          <p class="section-copy">Четыре последовательных модуля: от понимания контента и первого монтажа до публикации, аналитики и монетизации.</p>
+        </header>
+
+        <div class="program-layout">
+          <aside>
+            <div class="program-stat"><strong>17</strong><span>уроков от первого ролика до готовой реферальной связки</span></div>
+            <p class="program-note">Открой модуль, чтобы посмотреть уроки и результат каждого этапа.</p>
+          </aside>
+
+          <div class="modules">
+            <details class="module" open>
+              <summary><span class="module-num">1</span><span class="module-title">Модуль 1. Как создавать контент, который смотрят</span></summary>
+              <ul class="lessons">
+                <li><strong>Урок 1. Что такое контент и зачем он нужен</strong><span>Как видео привлекают внимание, создают доверие и помогают продвигать продукты, услуги и идеи.</span></li>
+                <li><strong>Урок 2. Какие бывают видео</strong><span>Shorts, Reels, TikTok, длинные YouTube-видео, нарезки, обзоры, реакции, скринкасты, туториалы и другие форматы.</span></li>
+                <li><strong>Урок 3. Анатомия хорошего короткого видео</strong><span>Хук, основная мысль, удержание внимания, темп, смена кадров, концовка и призыв к действию.</span></li>
+                <li><strong>Урок 4. Идеи и сценарии</strong><span>Где находить темы, как анализировать чужие ролики, адаптировать идеи и писать короткие сценарии без воды.</span></li>
+              </ul>
+              <p class="module-result">Результат модуля: ты выберешь формат, подготовишь идеи и напишешь первые сценарии</p>
+            </details>
+
+            <details class="module">
+              <summary><span class="module-num">2</span><span class="module-title">Модуль 2. Съёмка, звук и монтаж</span></summary>
+              <ul class="lessons">
+                <li><strong>Урок 5. Звук</strong><span>Как записывать голос, уменьшать шумы, работать с микрофоном и делать речь понятнее.</span></li>
+                <li><strong>Урок 6. Базовый монтаж в CapCut</strong><span>Импорт, нарезка, удаление пауз, склейки, субтитры, зумы, музыка, звуки и экспорт ролика.</span></li>
+                <li><strong>Урок 7. Монтажная логика</strong><span>Как поддерживать темп, где делать склейки, когда использовать эффекты и как не перегрузить ролик.</span></li>
+                <li><strong>Урок 8. Обложки и визуальная упаковка</strong><span>Первый кадр, крупный текст, контраст, эмоция и базовые принципы оформления видео.</span></li>
+              </ul>
+              <p class="module-result">Результат модуля: ты самостоятельно снимешь и смонтируешь первый ролик</p>
+            </details>
+
+            <details class="module">
+              <summary><span class="module-num">3</span><span class="module-title">Модуль 3. Публикация и рост</span></summary>
+              <ul class="lessons">
+                <li><strong>Урок 9. Как публиковать видео</strong><span>YouTube Shorts, Reels, TikTok, Telegram и длинные видео на YouTube.</span></li>
+                <li><strong>Урок 10. Названия и хуки</strong><span>Как создавать несколько вариантов начала и названия через ошибку, боль, результат, конфликт и личный опыт.</span></li>
+                <li><strong>Урок 11. Как смотреть аналитику</strong><span>Просмотры, удержание, досмотры, переходы, подписки, комментарии и сохранения.</span></li>
+                <li><strong>Урок 12. Контент-план на 14 дней</strong><span>Как выбрать темы, подготовить первую пачку роликов и вести таблицу производства контента.</span></li>
+              </ul>
+              <p class="module-result">Результат модуля: ты опубликуешь первое видео и поймёшь, как улучшать следующие ролики на основе цифр</p>
+            </details>
+
+            <details class="module">
+              <summary><span class="module-num">4</span><span class="module-title">Модуль 4. Монетизация контента</span></summary>
+              <ul class="lessons">
+                <li><strong>Урок 13. Как контент превращается в деньги</strong><span>Внимание, доверие, переход, предложение, целевое действие и вознаграждение.</span></li>
+                <li><strong>Урок 14. Личный бренд</strong><span>Как контент помогает развивать репутацию, продавать услуги, продукты, консультации и обучение.</span></li>
+                <li><strong>Урок 15. Реклама и партнёрские программы</strong><span>Рекламные интеграции, CPA, реферальные ссылки, промокоды и выбор подходящего предложения.</span></li>
+                <li><strong>Урок 16. Реферальный трафик как способ заработка</strong><span>Как работает связка из ролика, интереса, перехода, действия и выплаты.</span></li>
+                <li><strong>Урок 17. Готовая связка от меня</strong><span>Какое предложение использовать, на какую аудиторию создавать ролики, какие темы тестировать, куда вести людей и как отслеживать результат.</span></li>
+              </ul>
+              <p class="module-result">Результат модуля: ты получишь готовую механику, которую сможешь запустить и проверить на практике</p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="results">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">К концу обучения у тебя будут не только знания, но и готовые материалы</p>
+          <h2 class="section-title">Что ты сделаешь во время курса</h2>
+          <p class="section-copy">Во время курса ты:</p>
+        </header>
+
+        <div class="outcomes-grid">
+          <ul class="outcome-list">
+            <li><b>1</b><span>Выберешь подходящий формат контента</span></li>
+            <li><b>2</b><span>Подготовишь 10 идей для роликов</span></li>
+            <li><b>3</b><span>Соберёшь первое видео</span></li>
+            <li><b>4</b><span>Посмотришь первые показатели</span></li>
+            <li><b>5</b><span>Составишь контент-план на 14 дней</span></li>
+            <li><b>6</b><span>Разберёшь способы монетизации</span></li>
+            <li><b>7</b><span>Получишь готовую реферальную связку</span></li>
+          </ul>
+          <aside class="income-card">
+            <small>Результат</small>
+            <strong>Выйдешь на 50-200к в месяц</strong>
+          </aside>
+        </div>
+
+        <header class="section-head compact">
+          <p class="eyebrow">Пройти этот путь можно за две недели</p>
+          <h2 class="section-title">План на 14 дней</h2>
+        </header>
+        <ol class="timeline-days">
+          <li><strong>Дни 1–2</strong><p>Форматы, идеи и сценарии</p></li>
+          <li><strong>Дни 3–6</strong><p>Съёмка, звук и монтаж</p></li>
+          <li><strong>Дни 7–9</strong><p>Упаковка и публикация</p></li>
+          <li><strong>Дни 10–12</strong><p>Аналитика и подготовка новых роликов</p></li>
+          <li><strong>Дни 13–14</strong><p>Монетизация и запуск реферальной связки</p></li>
+        </ol>
+        <p class="pace-note">Ты можешь проходить курс в своём темпе. План на 14 дней нужен, чтобы не откладывать практику и быстрее выпустить первые видео.</p>
+      </div>
+    </section>
+
+    <section class="section section-raised" id="author">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">Автор, формат и стоимость</p>
+          <h2 class="section-title">Почему я могу этому научить</h2>
+        </header>
+
+        <div class="author-price">
+          <article class="author-card">
+            <h3>Обо мне</h3>
+            <p>Я — Montana, IT-блогер и автор YouTube-канала, который я развил с помощью видео и регулярной работы с контентом.</p>
+            <p>Я использую контент не только ради просмотров. С его помощью я развиваю аудиторию, продвигаю проекты и привлекаю людей в продукты.</p>
+            <p>На этом курсе я собрал базовые знания, которые нужны новичку, чтобы не тратить месяцы на хаотичное изучение монтажа, алгоритмов и монетизации.</p>
+          </article>
+
+          <article class="price-card" id="price">
+            <h3>Деньги на коротких видео</h3>
+            <p class="price-desc">Полная программа курса и готовая реферальная связка.</p>
+            <p class="eyebrow price-eyebrow">Что входит в курс</p>
+            <ul class="course-includes" aria-label="Что входит в курс">
+              <li>17 последовательных уроков</li>
+              <li>обучение созданию контента с нуля</li>
+              <li>съёмка и запись звука</li>
+              <li>монтаж в CapCut</li>
+              <li>публикация и аналитика</li>
+              <li>контент-план на 14 дней</li>
+              <li>способы монетизации</li>
+              <li>готовые реферальные предложения</li>
+              <li>готовая реферальная связка</li>
+            </ul>
+            <div class="price-value">9 990 ₽</div>
+            <a class="btn btn-dark" href="#course-form">Получить доступ к курсу</a>
+            <p class="price-note">Для старта не нужен опыт, собственная аудитория или профессиональная техника.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="choice">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">Ты можешь продолжить как раньше — или начать действовать сейчас</p>
+          <h2 class="section-title">Сейчас у тебя есть три пути</h2>
+        </header>
+
+        <div class="paths-grid">
+          <article class="path-card">
+            <span class="path-num">Путь 1</span>
+            <h3>Первый — ничего не менять</h3>
+            <p>Закрыть страницу, отложить эту идею и продолжить искать способ заработка, для которого якобы нужны деньги, связи, опыт или несколько лет обучения.</p>
+            <p>Через месяц ситуация останется прежней: ты всё ещё будешь думать, с чего начать.</p>
+          </article>
+
+          <article class="path-card">
+            <span class="path-num">Путь 2</span>
+            <h3>Второй — разбираться самостоятельно</h3>
+            <p>Можно искать бесплатные уроки, изучать CapCut по разным видео, самостоятельно выбирать реферальные программы и пытаться понять, какой контент способен приводить людей.</p>
+            <p>Это возможно.</p>
+            <p>Но тебе придётся самому собирать разрозненную информацию, проверять десятки подходов и тратить время на ошибки, которые уже можно избежать.</p>
+          </article>
+
+          <article class="path-card accent-path">
+            <span class="path-num">Путь 3</span>
+            <h3>Третий — пройти этот путь вместе со мной</h3>
+            <p>Я дам тебе последовательную программу, покажу, как создавать короткие видео, научу базовому монтажу и предоставлю готовые реферальные предложения.</p>
+            <p>Тебе не придётся самостоятельно собирать всю систему по частям.</p>
+            <p>Твоя задача — пройти уроки, сделать первые ролики, опубликовать их и начать проверять механику на практике.</p>
+            <a class="btn btn-dark" href="#course-form">Присоединиться к курсу за 9 990 ₽</a>
+          </article>
+        </div>
+
+        <!-- TODO: добавить блок с датой закрытия набора только после утверждения реальной даты и условий. -->
+        <div class="choice-note">
+          <p>Я не могу принять решение за тебя.</p>
+          <p>Но могу дать тебе понятный маршрут, готовые инструменты и навык, который останется с тобой независимо от результатов первых роликов.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="faq">
+      <div class="container faq-layout">
+        <header>
+          <p class="eyebrow">FAQ</p>
+          <h2 class="section-title">Частые вопросы</h2>
+        </header>
+
+        <div class="faq-list">
+          <details class="faq">
+            <summary>Я вообще не умею монтировать. Мне подойдёт?</summary>
+            <p>Да. Курс начинается с базовых вещей: интерфейса CapCut, нарезки, удаления пауз и простых склеек.</p>
+          </details>
+          <details class="faq">
+            <summary>Обязательно ли снимать своё лицо?</summary>
+            <p>Нет. Ты сможешь использовать нарезки, скринкасты, обзоры, озвучку и другие форматы без говорящей головы.</p>
+          </details>
+          <details class="faq">
+            <summary>Нужен ли компьютер?</summary>
+            <p>Для старта достаточно телефона. Базовый монтаж можно делать в мобильной версии CapCut.</p>
+          </details>
+          <details class="faq">
+            <summary>Мне придётся самостоятельно искать реферальные программы?</summary>
+            <p>Нет. Внутри курса я дам готовые предложения и объясню, какие ролики можно создавать для их продвижения.</p>
+          </details>
+          <details class="faq">
+            <summary>Нужно ли искать клиентов?</summary>
+            <p>Для работы с готовой реферальной моделью искать клиентов самостоятельно не нужно. Твоя задача — создавать видео и привлекать заинтересованных зрителей.</p>
+          </details>
+          <details class="faq">
+            <summary>Можно ли потом зарабатывать монтажом?</summary>
+            <p>Да. Навык создания коротких видео можно использовать для работы с блогерами, экспертами и компаниями.</p>
+          </details>
+          <details class="faq">
+            <summary>Можно ли использовать чужие видео?</summary>
+            <p>Только с разрешения правообладателя, подходящей лицензией или другим законным основанием. Простое копирование и перезагрузка чужого контента могут нарушать авторские права и правила площадок.</p>
+          </details>
+          <details class="faq">
+            <summary>Сколько я смогу заработать?</summary>
+            <p>Доход зависит от количества и качества роликов, выбранной темы, аудитории и регулярности работы. Курс даёт навык и готовую модель, но не гарантирует конкретную сумму.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta" id="final">
+      <div class="container">
+        <p class="eyebrow">Первый шаг</p>
+        <h2 class="final-title">Начни с первого <span class="accent">короткого видео</span></h2>
+        <p class="final-copy">Я покажу тебе, как создавать ролики, привлекать с их помощью людей и использовать этот навык для заработка.</p>
+        <div class="course-form-widget" id="course-form">
+          <script ao-number="117859" ao-widget-id="fW7wWP2VcUGgcQnEo7125w" ao-domain="course.honeymontana.com" src="https://idx.xl.ru/site/widget/widget.min.js"></script>
+        </div>
+        <p class="final-note">Без опыта, собственной аудитории и дорогой техники.</p>
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>
