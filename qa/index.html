@@ -347,5 +347,39 @@
         });
       })();
     </script>
+    <script>
+      window.addEventListener(
+        "load",
+        () => {
+          const bottomCta = document.querySelector('[data-umami-event="qa_cta_bottom"]');
+
+          if (!bottomCta || typeof IntersectionObserver === "undefined") {
+            return;
+          }
+
+          const observer = new IntersectionObserver(
+            (entries) => {
+              const ctaIsVisible = entries.some(
+                (entry) => entry.isIntersecting && entry.intersectionRatio >= 0.75,
+              );
+
+              if (!ctaIsVisible) {
+                return;
+              }
+
+              if (window.umami && typeof window.umami.track === "function") {
+                window.umami.track("qa_cta_bottom_seen");
+              }
+
+              observer.disconnect();
+            },
+            { threshold: 0.75 },
+          );
+
+          observer.observe(bottomCta);
+        },
+        { once: true },
+      );
+    </script>
   </body>
 </html>
