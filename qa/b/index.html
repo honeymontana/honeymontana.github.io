@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="ru" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Три бесплатных урока о тестировании: чем занимается QA, как устроен путь от Manual QA до Python AQA и подходит ли вам профессия."
+    />
+    <meta name="theme-color" content="#0f0d0e" />
+    <link rel="canonical" href="https://honeymontana.com/qa/" />
+    <meta property="og:title" content="Бесплатный мини-курс о профессии тестировщика" />
+    <meta
+      property="og:description"
+      content="За 3 бесплатных урока разберитесь, чем занимается тестировщик и как выглядит путь от Manual QA до Python AQA."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://honeymontana.com/qa/" />
+    <title>3 бесплатных урока о тестировании — Honey Montana</title>
+    <link rel="icon" href="./public/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="./public/fonts/manrope-cyrillic-variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="./public/fonts/russo-one-cyrillic-400.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <script>
+      (() => {
+        try {
+          const savedTheme = localStorage.getItem("honey-aqa-theme");
+          document.documentElement.classList.toggle(
+            "dark",
+            savedTheme ? savedTheme === "dark" : true,
+          );
+        } catch {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+    <script
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="a09ab383-3517-40c1-93a8-1aa822de801b"
+      data-tag="qa-landing-01-b"
+      data-domains="honeymontana.com"
+    ></script>
+  </head>
+
+  <body>
+    <a
+      class="skip-link"
+      href="#main"
+      data-umami-event="qa_navigation_click"
+      data-umami-event-test="qa_landing_01"
+      data-umami-event-variant="b"
+      data-umami-event-placement="accessibility"
+      data-umami-event-destination="main"
+    >Перейти к содержимому</a>
+
+    <div class="announcement">
+      <div class="announcement__inner">
+        <span class="announcement__icon" aria-hidden="true">⚡</span>
+        <span><strong>Бесплатный мини-курс:</strong> 3 урока о профессии тестировщика</span>
+        <a
+          href="https://course.honeymontana.com/b/106613/102704"
+          target="_blank"
+          rel="noopener"
+          data-forward-utm
+          data-umami-event="qa_course_click"
+          data-umami-event-test="qa_landing_01"
+          data-umami-event-variant="b"
+          data-umami-event-placement="announcement"
+        >Смотреть бесплатно <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+
+    <header class="site-header container">
+      <a
+        class="brand"
+        href="#top"
+        aria-label="Honey Montana, в начало страницы"
+        data-umami-event="qa_navigation_click"
+        data-umami-event-test="qa_landing_01"
+        data-umami-event-variant="b"
+        data-umami-event-placement="header"
+        data-umami-event-destination="top"
+      >
+        <svg class="brand__mark" viewBox="0 0 64 64" aria-hidden="true">
+          <path
+            d="M31.8 3.5 7.6 14.2v15.9c0 14.9 9.9 25.6 24.2 30.4 14.3-4.8 24.3-15.5 24.3-30.4V14.2L31.8 3.5Z"
+            fill="currentColor"
+          />
+          <path
+            d="m19.6 31.7 8 8.1 17-18"
+            fill="none"
+            stroke="var(--coal)"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="6"
+          />
+        </svg>
+        <span class="brand__wordmark">HONEY<br />MONTANA</span>
+        <span class="brand__tag">AQA</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Основная навигация">
+        <a
+          href="#program"
+          data-umami-event="qa_navigation_click"
+          data-umami-event-test="qa_landing_01"
+          data-umami-event-variant="b"
+          data-umami-event-placement="header"
+          data-umami-event-destination="program"
+        >Программа</a>
+        <a
+          href="#mentor"
+          data-umami-event="qa_navigation_click"
+          data-umami-event-test="qa_landing_01"
+          data-umami-event-variant="b"
+          data-umami-event-placement="header"
+          data-umami-event-destination="mentor"
+        >Куратор</a>
+        <a
+          href="#reviews"
+          data-umami-event="qa_navigation_click"
+          data-umami-event-test="qa_landing_01"
+          data-umami-event-variant="b"
+          data-umami-event-placement="header"
+          data-umami-event-destination="reviews"
+        >Отзывы</a>
+      </nav>
+
+      <button class="theme-toggle" type="button" aria-label="Включить светлую тему">
+        <svg class="theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41" />
+        </svg>
+        <svg class="theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.5 15.4A8.5 8.5 0 0 1 8.6 3.5a8.5 8.5 0 1 0 11.9 11.9Z" />
+        </svg>
+      </button>
+
+      <a
+        class="button button--outline header-cta"
+        href="https://course.honeymontana.com/b/106613/102704"
+        target="_blank"
+        rel="noopener"
+        data-forward-utm
+        data-umami-event="qa_course_click"
+        data-umami-event-test="qa_landing_01"
+        data-umami-event-variant="b"
+        data-umami-event-placement="header"
+      >Смотреть бесплатно</a>
+    </header>
+
+    <main id="main">
+      <section class="hero container" id="top">
+        <div class="hero__copy" data-reveal>
+          <p class="eyebrow"><span></span> С нуля или из Manual QA — в Python AQA</p>
+          <h1>
+            Стань<br />
+            <em>автоматизированным</em><br />
+            тестировщиком
+          </h1>
+          <div class="hero__outcome" aria-label="Три бесплатных урока о профессии тестировщика">
+            <span>Начни с тест-драйва профессии</span>
+            <strong>3 УРОКА <em>БЕСПЛАТНО</em></strong>
+          </div>
+          <p class="hero__lead">
+            Начни с 3 бесплатных уроков: поймёшь, что делает тестировщик, чем
+            <strong>Manual QA</strong> отличается от автоматизации и подходит ли тебе путь в Python
+            AQA. Без оплаты и обязательств.
+          </p>
+          <div class="hero__actions">
+            <a
+              class="button button--primary"
+              href="https://course.honeymontana.com/b/106613/102704"
+              target="_blank"
+              rel="noopener"
+              data-forward-utm
+              data-umami-event="qa_course_click"
+              data-umami-event-test="qa_landing_01"
+              data-umami-event-variant="b"
+              data-umami-event-placement="hero"
+            >
+              Смотреть 3 бесплатных урока
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+            <a
+              class="text-link"
+              href="#reviews"
+              data-umami-event="qa_navigation_click"
+              data-umami-event-test="qa_landing_01"
+              data-umami-event-variant="b"
+              data-umami-event-placement="hero"
+              data-umami-event-destination="reviews"
+            >10 историй выпускников <span>↘</span></a>
+          </div>
+          <p class="hero__microcopy">Откроются сразу в Telegram · можно смотреть в своём темпе</p>
+          <div class="hero__chips" aria-label="Ключевые особенности программы">
+            <span><i></i> Можно с нуля</span>
+            <span><i></i> Python AQA</span>
+            <span><i></i> Куратор до конца испытательного срока</span>
+          </div>
+        </div>
+
+        <div class="hero-art" aria-label="Путь от ручного тестирования к Python AQA" role="img" data-reveal>
+          <span class="spark spark--one" aria-hidden="true">✦</span>
+          <span class="spark spark--two" aria-hidden="true">✦</span>
+          <span class="spark spark--three" aria-hidden="true">+</span>
+
+          <div class="skill-pack skill-pack--manual">
+            <span class="skill-pack__seal">START</span>
+            <small>сначала база</small>
+            <strong>MANUAL</strong>
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <path d="M21 25h58v50H21z" />
+              <path d="m35 49 9 9 21-23M35 68h30" />
+            </svg>
+            <b>QA CORE</b>
+          </div>
+
+          <div class="skill-pack skill-pack--python">
+            <span class="skill-pack__seal">MIDDLE</span>
+            <small>затем код</small>
+            <strong>PYTHON</strong>
+            <div class="python-mark" aria-hidden="true">
+              <span>Py</span>
+              <i></i><i></i><i></i>
+            </div>
+            <b>AUTOMATION</b>
+          </div>
+
+          <div class="hero-art__result">
+            <span>✓</span>
+            <div><small>финальный статус</small><strong>OFFER ACCEPTED</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="proof-strip" aria-label="Результаты выпускников">
+        <div class="proof-strip__track">
+          <span><b>10</b> историй трудоустройства</span>
+          <span><b>5</b> офферов у одной выпускницы</span>
+          <span><b>≈ 360 000 ₽ gross</b> в одном из кейсов</span>
+          <span><b>2 недели</b> — кейс до первых офферов</span>
+          <span><b>куратор</b> остаётся после оффера</span>
+          <span aria-hidden="true"><b>10</b> историй трудоустройства</span>
+          <span aria-hidden="true"><b>5</b> офферов у одной выпускницы</span>
+          <span aria-hidden="true"><b>≈ 360 000 ₽ gross</b> в одном из кейсов</span>
+          <span aria-hidden="true"><b>2 недели</b> — кейс до первых офферов</span>
+          <span aria-hidden="true"><b>куратор</b> остаётся после оффера</span>
+        </div>
+      </section>
+
+      <section class="program container" id="program">
+        <div class="section-heading section-heading--center" data-reveal>
+          <p class="eyebrow"><span></span> Понятный маршрут</p>
+          <h2>Не прыгаешь в код.<br /><em>Строишь профессию.</em></h2>
+          <p>
+            Чтобы хорошо автоматизировать тестирование, сначала важно понять его ручную основу.
+            Поэтому программа идёт в правильном порядке — от базы до реальной работы.
+          </p>
+        </div>
+
+        <div class="route">
+          <article class="route-card route-card--yellow" data-reveal>
+            <div class="route-card__top">
+              <span>01</span>
+              <small>Фундамент</small>
+            </div>
+            <div class="route-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 120 120">
+                <rect x="18" y="18" width="84" height="84" rx="12" />
+                <path d="m39 58 13 13 30-34M39 86h43" />
+              </svg>
+            </div>
+            <h3>Ручное<br />тестирование</h3>
+            <p>Разбираешься, как работает продукт, находишь ошибки и доказываешь их ценность команде.</p>
+            <ul>
+              <li>Теория и виды тестирования</li>
+              <li>Тест-дизайн и документация</li>
+              <li>Web, client-server, API и SQL</li>
+              <li>Баг-репорты и работа в команде</li>
+            </ul>
+          </article>
+
+          <div class="route__arrow route__arrow--one" aria-hidden="true">→</div>
+
+          <article class="route-card route-card--blue" data-reveal>
+            <div class="route-card__top">
+              <span>02</span>
+              <small>Автоматизация</small>
+            </div>
+            <div class="route-card__icon" aria-hidden="true">
+              <div class="code-orbit"><span>Py</span><i></i><i></i><i></i></div>
+            </div>
+            <h3>Python AQA<br />до middle</h3>
+            <p>Пишешь автотесты и собираешь полноценный фреймворк, который не стыдно защищать на собеседовании.</p>
+            <ul>
+              <li>Python, ООП и чистый код</li>
+              <li>Pytest, UI и API автотесты</li>
+              <li>Git, Docker и CI/CD</li>
+              <li>Отчёты и архитектура фреймворка</li>
+            </ul>
+          </article>
+
+          <div class="route__arrow route__arrow--two" aria-hidden="true">→</div>
+
+          <article class="route-card route-card--green" data-reveal>
+            <div class="route-card__top">
+              <span>03</span>
+              <small>Карьера</small>
+            </div>
+            <div class="route-card__icon route-card__icon--offer" aria-hidden="true">
+              <span>OFFER</span><b>✓</b>
+            </div>
+            <h3>Работа<br />и первый проект</h3>
+            <p>Упаковываешь опыт, тренируешь интервью, выбираешь оффер и не остаёшься один на новом проекте.</p>
+            <ul>
+              <li>Резюме и позиционирование</li>
+              <li>Мок-интервью и live coding</li>
+              <li>Стратегия поиска и разбор офферов</li>
+              <li>Поддержка на испытательном сроке</li>
+            </ul>
+          </article>
+        </div>
+
+        <p class="program__note" data-reveal>
+          <span>!</span> Ты двигаешься не по календарю, а по навыкам: каждый модуль закрепляется практикой
+          и защитой у куратора.
+        </p>
+      </section>
+
+      <section class="stack-band" aria-labelledby="stack-title">
+        <p id="stack-title">Стек, с которым выходишь на рынок</p>
+        <div class="stack-band__list">
+          <span>PYTHON</span><i>✦</i><span>PYTEST</span><i>✦</i><span>SELENIUM</span><i>✦</i>
+          <span>PLAYWRIGHT</span><i>✦</i><span>API</span><i>✦</i><span>SQL</span><i>✦</i>
+          <span>GIT</span><i>✦</i><span>DOCKER</span><i>✦</i><span>CI/CD</span>
+        </div>
+      </section>
+
+      <section class="mentor container" id="mentor">
+        <div class="mentor__visual" data-reveal>
+          <div class="mentor-window">
+            <div class="mentor-window__bar">
+              <span><i></i><i></i><i></i></span>
+              <small>личный_куратор.py</small>
+              <b>ONLINE</b>
+            </div>
+            <div class="mentor-message mentor-message--student">
+              <span>Ты</span>
+              <p>Тест падает только в CI. Локально всё зелёное 😵‍💫</p>
+            </div>
+            <div class="mentor-message mentor-message--mentor">
+              <span>Куратор</span>
+              <p>Смотрю логи. Проверь изоляцию данных — и созвонимся, разберём решение вместе.</p>
+            </div>
+            <div class="mentor-code">
+              <code><span>def</span> support(student):<br />&nbsp;&nbsp;<b>return</b> <em>"до результата"</em></code>
+            </div>
+            <div class="mentor-window__status"><i></i> Ответ не из базы знаний — от живого специалиста</div>
+          </div>
+          <div class="mentor-sticker" aria-hidden="true"><span>1:1</span><b>С ПЕРВОГО ДНЯ</b></div>
+        </div>
+
+        <div class="mentor__copy" data-reveal>
+          <p class="eyebrow"><span></span> Не просто доступ к урокам</p>
+          <h2>Куратор рядом.<br /><em>До результата.</em></h2>
+          <p class="mentor__lead">
+            Тебе не продают папку с записями и не оставляют один на один с ошибками. Личный куратор
+            знает твою точку старта, видит прогресс и помогает пройти каждый сложный участок.
+          </p>
+          <div class="mentor-steps">
+            <div><span>01</span><p><b>Во время учёбы</b>Отвечает на вопросы, проводит code review, live coding и защиту модулей.</p></div>
+            <div><span>02</span><p><b>На рынке</b>Помогает с резюме, интервью, ошибками на live coding и выбором оффера.</p></div>
+            <div><span>03</span><p><b>После оффера</b>Остаётся на связи, разбирает реальные задачи и помогает пройти испытательный срок.</p></div>
+          </div>
+          <a
+            class="button button--dark"
+            href="#reviews"
+            data-umami-event="qa_navigation_click"
+            data-umami-event-test="qa_landing_01"
+            data-umami-event-variant="b"
+            data-umami-event-placement="mentor"
+            data-umami-event-destination="reviews"
+          >Посмотреть результаты <span>→</span></a>
+        </div>
+      </section>
+
+      <section class="reviews" id="reviews">
+        <div class="container">
+          <div class="reviews__heading" data-reveal>
+            <div>
+              <p class="eyebrow"><span></span> Не обещания — истории</p>
+              <h2>Что было<br /><em>после обучения.</em></h2>
+            </div>
+            <p>
+              Здесь нет одинакового «идеального пути». Кто-то пришёл из Manual QA, кто-то — с полного
+              нуля. Результат общий: системные навыки, поддержка и выход на работу.
+            </p>
+          </div>
+
+          <div class="review-controls" data-reveal>
+            <p><span data-review-counter aria-live="polite" aria-atomic="true">1 / 10</span> Листай истории выпускников</p>
+            <div>
+              <button
+                class="review-arrow review-arrow--prev"
+                type="button"
+                aria-label="Предыдущий отзыв"
+                aria-controls="reviews-track"
+                data-umami-event="qa_reviews_navigation"
+                data-umami-event-test="qa_landing_01"
+                data-umami-event-variant="b"
+                data-umami-event-direction="previous"
+              >←</button>
+              <button
+                class="review-arrow review-arrow--next"
+                type="button"
+                aria-label="Следующий отзыв"
+                aria-controls="reviews-track"
+                data-umami-event="qa_reviews_navigation"
+                data-umami-event-test="qa_landing_01"
+                data-umami-event-variant="b"
+                data-umami-event-direction="next"
+              >→</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="reviews-track" id="reviews-track" tabindex="0" aria-label="Отзывы выпускников">
+          <article class="review-card review-card--pink">
+            <div class="review-card__result"><span>5 офферов</span><b>до 322 000 ₽ gross</b></div>
+            <blockquote>
+              Пришла к Роме, чтобы перейти в Fullstack QA. Обучение заняло 4 месяца, ещё месяц — подготовка легенды и трудоустройство. Понравились структура, большое количество практики, code review, live coding и поддержка команды. За 2 недели активного поиска прошла собеседования в 6 компаниях и получила 5 офферов от 207 000 до 322 000 ₽ gross.
+            </blockquote>
+            <footer><span>01</span><cite>@marikommary</cite></footer>
+          </article>
+
+          <article class="review-card review-card--blue">
+            <div class="review-card__result"><span>2 оффера</span><b>245 000 ₽ на руки с премией</b></div>
+            <blockquote>
+              Работал Manual QA и решил перейти в автоматизацию. Примерно за 3 месяца прошёл обучение, ещё несколько недель ушло на резюме и легенду. Особенно понравились практика, code review и подробные ответы куратора на любые вопросы. За 2 недели на рынке получил два оффера и выбрал вариант на 245 000 ₽ на руки с учётом премии.
+            </blockquote>
+            <footer><span>02</span><cite>@znik98</cite></footer>
+          </article>
+
+          <article class="review-card review-card--yellow">
+            <div class="review-card__result"><span>≈ месяц поиска</span><b>240 000 ₽ gross</b></div>
+            <blockquote>
+              Пришёл с опытом в ручном тестировании, чтобы усилить автоматизацию и выйти на более высокий доход. За 5–6 недель собрал полноценный фреймворк автотестов, подтянул теорию и подготовился к собеседованиям. Очень помогли карьерный модуль, мок-собеседования и работа над резюме и легендой. Примерно через месяц поиска получил оффер на 240 000 ₽ gross.
+            </blockquote>
+            <footer><span>03</span><cite>@lifter105</cite></footer>
+          </article>
+
+          <article class="review-card review-card--green">
+            <div class="review-card__result"><span>2 оффера</span><b>240 000 ₽ gross</b></div>
+            <blockquote>
+              После самообучения решил с нуля идти в AQA. Курс состоял из ручного тестирования и автоматизации, с большим количеством практики и защитой каждого модуля у ментора. Команда помогла не только со знаниями, но и с волнением перед выходом на рынок. Чуть больше чем за месяц поиска получил два оффера и выбрал полную удалёнку на 240 000 ₽ gross.
+            </blockquote>
+            <footer><span>04</span><cite>@blanccrow</cite></footer>
+          </article>
+
+          <article class="review-card review-card--orange">
+            <div class="review-card__result"><span>рост оффера</span><b>150 000 → 185 000 ₽</b></div>
+            <blockquote>
+              Пришёл на ручное тестирование с полного нуля. Когда поиск работы затянулся, Рома дополнительно дал базу по автотестам, благодаря которой я начал выделяться среди других кандидатов. В итоге получил два оффера, а куратор помог поднять выбранное предложение со 150 000 до 185 000 ₽. Обучение понравилось чётким планом, практикой и регулярной обратной связью.
+            </blockquote>
+            <footer><span>05</span><cite>@kto_nadooo</cite></footer>
+          </article>
+
+          <article class="review-card review-card--purple">
+            <div class="review-card__result"><span>3 недели интервью</span><b>350 000 ₽ gross</b></div>
+            <blockquote>
+              Проходил обучение по автоматизированному тестированию на Python. Понравились актуальный стек, модульная программа, практические задания и регулярные созвоны с кураторами. Полученные знания полностью совпали с тем, что спрашивали на собеседованиях и понадобилось в работе. После трёх недель интервью получил оффер на 350 000 ₽ gross в продуктовую компанию.
+            </blockquote>
+            <footer><span>06</span><cite>@vlad_yan1</cite></footer>
+          </article>
+
+          <article class="review-card review-card--pink">
+            <div class="review-card__result"><span>big-tech проект</span><b>180 000 ₽ на руки</b></div>
+            <blockquote>
+              Пришёл с нулевыми знаниями в автоматизации и хотел перейти в AQA. Поиск работы оказался долгим: мешали отсутствие коммерческого опыта и ошибки на live coding, но команда помогла улучшить легенду и увереннее проходить собеседования. Материалы оказались очень близки к реальным задачам на проекте, поэтому на работе освоился быстро. В итоге получил оффер на 180 000 ₽ на руки в крупный big-tech проект.
+            </blockquote>
+            <footer><span>07</span><cite>@nnnittinnn</cite></footer>
+          </article>
+
+          <article class="review-card review-card--blue">
+            <div class="review-card__result"><span>сейчас</span><b>≈ 250 000 ₽ на руки</b></div>
+            <blockquote>
+              Проходил обучение параллельно с работой и закончил материалы вместе с подготовкой легенды примерно за четыре месяца. Понравились структурированная подача, большое количество практики, актуальные дополнения вроде Docker и помощь менторов. После выхода на рынок получил оффер меньше чем за месяц. Сейчас зарабатываю около 250 000 ₽ на руки.
+            </blockquote>
+            <footer><span>08</span><cite>@vitallife1</cite></footer>
+          </article>
+
+          <article class="review-card review-card--yellow">
+            <div class="review-card__result"><span>зарубежный рынок</span><b>≈ 360 000 ₽ gross</b></div>
+            <blockquote>
+              Пришёл с нуля, чтобы выйти в автоматизацию на зарубежный рынок. Сначала тренировался проходить собеседования на российском рынке, вместе с кураторами доработал легенду и только потом вышел на международные вакансии. В результате получил оффер примерно на 360 000 ₽ gross. Материалы оказались близки к реальной работе, а поддержка куратора осталась и после трудоустройства.
+            </blockquote>
+            <footer><span>09</span><cite>@merqur3</cite></footer>
+          </article>
+
+          <article class="review-card review-card--green">
+            <div class="review-card__result"><span>честный путь</span><b>230 000 ₽ gross</b></div>
+            <blockquote>
+              Обучение растянулось из-за личных обстоятельств, но в итоге я получил оффер на 230 000 ₽ gross. Материалы были краткими, структурированными и без пропуска важных деталей, а каждый модуль защищался на подробном созвоне с ментором. Отдельно благодарен Николаю за терпение и поддержку. Из улучшений хотелось бы больше активностей в Discord, отдельный канал с анонсами и больше видео по темам.
+            </blockquote>
+            <footer><span>10</span><cite>@ton_loser</cite></footer>
+          </article>
+        </div>
+
+      </section>
+
+      <section class="free-course container" id="free-course" data-reveal>
+        <div class="free-course__copy">
+          <p class="eyebrow"><span></span> Начни без риска</p>
+          <h2>Посмотри 3 урока.<br /><em>И реши, твоё ли это.</em></h2>
+          <p>
+            За 3 коротких урока разберёшься, чем на самом деле занимается тестировщик, как выглядит
+            рабочий день и куда расти после Manual QA. Курс откроется сразу в Telegram.
+          </p>
+          <ul>
+            <li><span>01</span> Что такое тестирование без сложных терминов</li>
+            <li><span>02</span> Чем Manual QA отличается от автоматизации</li>
+            <li><span>03</span> Как понять, подходит ли тебе профессия</li>
+          </ul>
+          <a
+            class="button button--primary button--large free-course__cta"
+            href="https://course.honeymontana.com/b/106613/102704"
+            target="_blank"
+            rel="noopener"
+            data-forward-utm
+            data-course-cta-final
+            data-umami-event="qa_course_click"
+            data-umami-event-test="qa_landing_01"
+            data-umami-event-variant="b"
+            data-umami-event-placement="final"
+          >
+            <span class="free-course__cta-copy">
+              <small>Бесплатно · 3 урока · в Telegram</small>
+              <strong>Смотреть 3 урока</strong>
+            </span>
+            <span class="free-course__cta-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
+          </a>
+        </div>
+
+        <a
+          class="free-course__visual"
+          href="https://course.honeymontana.com/b/106613/102704"
+          target="_blank"
+          rel="noopener"
+          aria-label="Смотреть бесплатный курс в Telegram"
+          data-forward-utm
+          data-umami-event="qa_course_click"
+          data-umami-event-test="qa_landing_01"
+          data-umami-event-variant="b"
+          data-umami-event-placement="final_visual"
+        >
+          <div class="video-card">
+            <div class="video-card__top"><span>БЕСПЛАТНО</span><b>3 УРОКА</b></div>
+            <div class="video-card__screen">
+              <i class="video-card__play">▶</i>
+              <span class="video-card__bug">BUG?</span>
+              <div class="video-card__timeline"><i></i></div>
+            </div>
+            <h3>ВВЕДЕНИЕ В<br />ТЕСТИРОВАНИЕ</h3>
+            <p>Тест-драйв профессии</p>
+          </div>
+          <div class="free-course__sticker"><span>PLAY</span><b>И РЕШИ</b></div>
+        </a>
+      </section>
+    </main>
+  </body>
+</html>
