@@ -14,7 +14,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800;900&amp;family=Unbounded:wght@600;700;800;900&amp;display=swap" rel="stylesheet" />
     <script>document.documentElement.classList.add('js');</script>
-    <link rel="stylesheet" href="styles.css?v=4" />
+    <link rel="stylesheet" href="styles.css?v=6" />
+    <script src="/footer-visibility.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Перейти к содержанию</a>
@@ -160,12 +161,19 @@
     </main>
 
     <div class="mobile-cta" data-mobile-cta><a class="button" href="#application">Заполнить анкету и забрать бонусы</a></div>
-    <footer class="site-footer">
-      <div class="container footer-panel">
-        <div class="footer-top"><a class="wordmark wordmark--footer" href="#top"><span class="wordmark__mark" aria-hidden="true">S/A</span><span class="wordmark__text">Системный аналитик</span></a><p>Пошаговое обучение, живые созвоны и доведение до оффера в компании.</p></div>
-        <div class="footer-grid"><nav aria-label="Навигация в подвале"><strong>Разделы</strong><a href="#results">Результаты</a><a href="#audience">Для кого</a><a href="#format">Формат</a></nav><nav aria-label="Программа обучения"><strong>Обучение</strong><a href="#program">Программа</a><a href="#bonuses">Бонусы</a></nav><nav aria-label="Предзапись"><strong>Предзапись</strong><a href="#application">Заполнить анкету</a><a href="#top">Вернуться к началу</a></nav></div>
-        <div class="footer-disclaimer">* Указанные зарплаты, сроки и количество результатов основаны на отдельных кейсах. Они не гарантируют аналогичный результат и зависят от опыта, усилий и ситуации на рынке.</div>
-        <div class="footer-bottom"><span>© 2026 Обучение системной аналитике</span><a href="#top">Наверх ↑</a></div>
+    <footer class="legal-footer" aria-label="Юридическая информация" data-site-footer hidden>
+      <div class="container legal-footer__inner">
+        <a class="legal-footer__email" href="mailto:info@honeymontana.com">info@honeymontana.com</a>
+        <div class="legal-footer__details">
+          <p>ИП Мирошниченко Анатолий Михайлович</p>
+          <p>ИНН: 784807055750 | ОГРНИП: 326784700075852</p>
+        </div>
+        <nav class="legal-footer__links" aria-label="Правовые документы">
+          <a href="https://course.honeymontana.com/privacy" target="_blank" rel="noopener noreferrer">Политика конфиденциальности</a>
+          <a href="https://course.honeymontana.com/policyopd" target="_blank" rel="noopener noreferrer">Политика в отношении обработки персональных данных</a>
+          <a href="https://course.honeymontana.com/oferta_sa" target="_blank" rel="noopener noreferrer">Публичная оферта</a>
+        </nav>
+        <p class="legal-footer__copyright">© 2026 SYSTEM ANALYST. ALL RIGHTS RESERVED.</p>
       </div>
     </footer>
     <script src="script.js?v=4"></script>
