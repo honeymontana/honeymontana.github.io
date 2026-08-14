@@ -7,6 +7,10 @@ node_modules/
 # Системные файлы macOS
 .DS_Store
 
+# Vim swap
+*.swp
+*.swo
+
 # Stories для Instagram
 stories/
 
