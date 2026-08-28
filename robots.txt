@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://honeymontana.com/blog/sitemap-index.xml

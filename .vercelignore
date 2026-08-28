@@ -1,0 +1,14 @@
+.claude
+.github
+node_modules
+astro-blog/node_modules
+astro-blog/dist
+astro-blog/.astro
+landing-qa
+presentation
+stories
+linux
+school
+.DS_Store
+*.swp
+*.swo

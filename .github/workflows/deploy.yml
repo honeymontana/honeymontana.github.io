@@ -1,0 +1,76 @@
+name: Deploy site to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: astro-blog/package-lock.json
+
+      - name: Install blog deps
+        working-directory: astro-blog
+        run: npm ci
+
+      - name: Build blog
+        working-directory: astro-blog
+        run: npm run build
+
+      - name: Assemble site
+        run: |
+          set -eux
+          mkdir -p _site
+          # Copy the whole repo (landings + static assets) into _site,
+          # skipping build/tooling artefacts and the blog source tree.
+          rsync -a \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude '_site' \
+            --exclude 'astro-blog' \
+            --exclude 'landing-qa' \
+            --exclude 'presentation' \
+            --exclude 'stories' \
+            --exclude 'linux' \
+            --exclude 'school' \
+            --exclude 'node_modules' \
+            --exclude '.DS_Store' \
+            --exclude '*.swp' \
+            --exclude '*.swo' \
+            ./ _site/
+          # Drop the built blog under /blog/
+          mkdir -p _site/blog
+          rsync -a astro-blog/dist/ _site/blog/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

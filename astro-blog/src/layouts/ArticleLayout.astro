@@ -1,0 +1,77 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  entry: CollectionEntry<'blog'>;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const dateFmt = new Intl.DateTimeFormat('ru-RU', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: data.title,
+  description: data.description,
+  datePublished: data.date.toISOString(),
+  dateModified: (data.updated ?? data.date).toISOString(),
+  author: {
+    '@type': 'Person',
+    name: data.author,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Honey Montana',
+    url: 'https://honeymontana.com',
+  },
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).toString(),
+};
+---
+
+<BaseLayout
+  title={`${data.title} — Honey Montana`}
+  description={data.description}
+  ogType="article"
+  publishedTime={data.date}
+  modifiedTime={data.updated}
+  tags={data.tags}
+  ogImage={data.cover}
+>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(jsonLd)}
+  />
+
+  <article class="container article">
+    <header class="article-header">
+      <div class="article-meta">
+        <time datetime={data.date.toISOString()}>{dateFmt.format(data.date)}</time>
+        {data.tags.length > 0 && <span class="dot">·</span>}
+        {data.tags.map((tag) => (
+          <a class="tag" href={`${base}/tag/${tag}/`}>#{tag}</a>
+        ))}
+      </div>
+      <h1>{data.title}</h1>
+      <p class="article-lead">{data.description}</p>
+    </header>
+
+    <div class="prose">
+      <slot />
+    </div>
+
+    <aside class="cta-card">
+      <h3>Хочешь так же — но с наставником?</h3>
+      <p>Открытые направления: Python Backend, QA, Системный аналитик. Начни с бесплатных материалов.</p>
+      <a class="cta-btn" href="/">Смотреть курсы</a>
+    </aside>
+  </article>
+</BaseLayout>

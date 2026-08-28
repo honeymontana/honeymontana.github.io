@@ -17,3 +17,7 @@ stories/
 # Презентации
 presentation/
 
+# Vercel build output
+public/
+.vercel/
+
