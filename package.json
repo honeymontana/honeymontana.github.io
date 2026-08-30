@@ -1,0 +1,12 @@
+{
+  "name": "honeymontana-site",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "build": "bash scripts/build-vercel.sh",
+    "check": "node scripts/check-vercel-build.mjs public"
+  }
+}

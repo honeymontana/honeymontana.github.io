@@ -62,7 +62,7 @@
 
         parameters.delete("ab");
 
-        const destination = new URL(`./${variant}/`, window.location.href);
+        const destination = new URL(`/qa/${variant}/`, window.location.origin);
         destination.search = parameters.toString();
         destination.hash = window.location.hash;
         window.location.replace(destination.href);
@@ -98,7 +98,7 @@
     <main>
       <p>Открываем бесплатный мини-курс…</p>
       <noscript>
-        Для выбора версии нужен JavaScript. <a href="./a/">Открыть курс</a>.
+        Для выбора версии нужен JavaScript. <a href="/qa/a/">Открыть курс</a>.
       </noscript>
     </main>
   </body>

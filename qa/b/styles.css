@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Manrope Local";
-  src: url("./public/fonts/manrope-cyrillic-variable.woff2") format("woff2");
+  src: url("/qa/b/public/fonts/manrope-cyrillic-variable.woff2") format("woff2");
   font-style: normal;
   font-weight: 200 800;
   font-display: swap;
@@ -9,7 +9,7 @@
 
 @font-face {
   font-family: "Manrope Local";
-  src: url("./public/fonts/manrope-latin-variable.woff2") format("woff2");
+  src: url("/qa/b/public/fonts/manrope-latin-variable.woff2") format("woff2");
   font-style: normal;
   font-weight: 200 800;
   font-display: swap;
@@ -18,7 +18,7 @@
 
 @font-face {
   font-family: "Russo One Local";
-  src: url("./public/fonts/russo-one-cyrillic-400.woff2") format("woff2");
+  src: url("/qa/b/public/fonts/russo-one-cyrillic-400.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -27,7 +27,7 @@
 
 @font-face {
   font-family: "Russo One Local";
-  src: url("./public/fonts/russo-one-latin-400.woff2") format("woff2");
+  src: url("/qa/b/public/fonts/russo-one-latin-400.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -36,7 +36,7 @@
 
 @font-face {
   font-family: "Fira Code Local";
-  src: url("./public/fonts/fira-code-cyrillic-ext-400.woff2") format("woff2");
+  src: url("/qa/b/public/fonts/fira-code-cyrillic-ext-400.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -45,7 +45,7 @@
 
 @font-face {
   font-family: "Fira Code Local";
-  src: url("./public/fonts/fira-code-cyrillic-400.woff2") format("woff2");
+  src: url("/qa/b/public/fonts/fira-code-cyrillic-400.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -54,7 +54,7 @@
 
 @font-face {
   font-family: "Fira Code Local";
-  src: url("./public/fonts/fira-code-400.woff2") format("woff2");
+  src: url("/qa/b/public/fonts/fira-code-400.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;

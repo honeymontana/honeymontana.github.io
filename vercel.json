@@ -3,17 +3,5 @@
   "buildCommand": "bash scripts/build-vercel.sh",
   "outputDirectory": "public",
   "cleanUrls": false,
-  "trailingSlash": true,
-  "redirects": [
-    { "source": "/sa", "destination": "/sa/", "permanent": false },
-    { "source": "/qa", "destination": "/qa/", "permanent": false },
-    { "source": "/course", "destination": "/course/", "permanent": false },
-    { "source": "/minicourse", "destination": "/minicourse/", "permanent": false },
-    { "source": "/pythonbackend", "destination": "/pythonbackend/", "permanent": false },
-    { "source": "/reviews", "destination": "/reviews/", "permanent": false },
-    { "source": "/content", "destination": "/content/", "permanent": false },
-    { "source": "/blog", "destination": "/blog/", "permanent": false },
-    { "source": "/qa/a", "destination": "/qa/a/", "permanent": false },
-    { "source": "/qa/b", "destination": "/qa/b/", "permanent": false }
-  ]
+  "trailingSlash": true
 }

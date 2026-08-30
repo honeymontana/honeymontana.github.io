@@ -2,13 +2,19 @@
 set -euo pipefail
 
 # Собирает финальный статический сайт в ./public для Vercel.
-# Логика повторяет .github/workflows/deploy.yml (GitHub Pages) один-в-один,
-# чтобы новая площадка отдавала ровно то же, что и текущий honeymontana.com.
+# Копируем только опубликованные страницы и ассеты: файлы окружения,
+# отчёты и служебные каталоги никогда не должны попадать в outputDirectory.
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 OUT="public"
+
+SITE_ORIGIN="${SITE_URL:-${VERCEL_PROJECT_PRODUCTION_URL:-https://honeymontana-github-io.vercel.app}}"
+if [[ "$SITE_ORIGIN" != http://* && "$SITE_ORIGIN" != https://* ]]; then
+  SITE_ORIGIN="https://$SITE_ORIGIN"
+fi
+export SITE_URL="$SITE_ORIGIN"
 
 rm -rf "$OUT"
 mkdir -p "$OUT"
@@ -19,32 +25,36 @@ npm ci
 npm run build
 popd >/dev/null
 
-# 2) Копируем корневые лендинги/ассеты в public/,
-#    исключая то же, что исключает GitHub Actions workflow.
-rsync -a \
-  --exclude '.git' \
-  --exclude '.github' \
-  --exclude '.claude' \
-  --exclude 'scripts' \
-  --exclude 'public' \
-  --exclude '_site' \
-  --exclude 'astro-blog' \
-  --exclude 'landing-qa' \
-  --exclude 'presentation' \
-  --exclude 'stories' \
-  --exclude 'linux' \
-  --exclude 'school' \
-  --exclude 'node_modules' \
-  --exclude '.DS_Store' \
-  --exclude '*.swp' \
-  --exclude '*.swo' \
-  --exclude 'vercel.json' \
-  --exclude '.vercelignore' \
-  --exclude 'CNAME' \
-  ./ "$OUT/"
+# 2) Копируем корневые лендинги и их ассеты по белому списку.
+STATIC_PATHS=(
+  index.html
+  robots.txt
+  favicon.png
+  favicon-16x16.png
+  favicon-32x32.png
+  apple-touch-icon.png
+  android-chrome-192x192.png
+  android-chrome-512x512.png
+  content
+  course
+  img
+  minicourse
+  pythonbackend
+  qa
+  reviews
+  sa
+)
+
+for path in "${STATIC_PATHS[@]}"; do
+  rsync -a "$path" "$OUT/"
+done
 
 # 3) Кладём собранный блог под /blog/
 mkdir -p "$OUT/blog"
 rsync -a astro-blog/dist/ "$OUT/blog/"
 
-echo "Build done: $OUT"
+# 4) Подставляем канонический origin текущего Vercel-проекта и проверяем output.
+node scripts/configure-site-url.mjs "$OUT" "$SITE_ORIGIN"
+node scripts/check-vercel-build.mjs "$OUT"
+
+echo "Build done: $OUT ($SITE_ORIGIN)"

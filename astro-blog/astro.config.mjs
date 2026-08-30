@@ -1,8 +1,10 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
+const site = process.env.SITE_URL || 'https://honeymontana-github-io.vercel.app';
+
 export default defineConfig({
-  site: 'https://honeymontana.com',
+  site,
   base: '/blog',
   trailingSlash: 'always',
   outDir: './dist',
