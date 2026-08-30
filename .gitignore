@@ -1,5 +1,5 @@
 # Секреты
-.env
+.env*
 
 # Зависимости (их не коммитят, они ставятся через npm install)
 node_modules/
@@ -20,4 +20,3 @@ presentation/
 # Vercel build output
 public/
 .vercel/
-
