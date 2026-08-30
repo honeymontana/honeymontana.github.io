@@ -15,7 +15,7 @@ if (!['http:', 'https:'].includes(parsedSiteUrl.protocol)) {
 }
 
 const siteOrigin = parsedSiteUrl.origin;
-const sourceOrigin = 'https://honeymontana.com';
+const sourceOrigin = 'https://quickitstart.com';
 const textExtensions = new Set(['.html', '.txt', '.xml']);
 
 const walk = async (directory) => {
