@@ -46,12 +46,12 @@ STATIC_PATHS=(
 )
 
 for path in "${STATIC_PATHS[@]}"; do
-  rsync -a "$path" "$OUT/"
+  cp -R "$path" "$OUT/"
 done
 
 # 3) Кладём собранный блог под /blog/
 mkdir -p "$OUT/blog"
-rsync -a astro-blog/dist/ "$OUT/blog/"
+cp -R astro-blog/dist/. "$OUT/blog/"
 
 # 4) Подставляем канонический origin текущего Vercel-проекта и проверяем output.
 node scripts/configure-site-url.mjs "$OUT" "$SITE_ORIGIN"
