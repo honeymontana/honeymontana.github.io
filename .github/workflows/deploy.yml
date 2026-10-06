@@ -33,6 +33,8 @@ jobs:
 
       - name: Build blog
         working-directory: astro-blog
+        env:
+          SITE_URL: https://quickitstart.com
         run: npm run build
 
       - name: Assemble site
